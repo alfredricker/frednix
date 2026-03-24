@@ -23,7 +23,10 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    XDG_DATA_DIRS = "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/fred/.local/share/flatpak/exports/share";
+    XDG_DATA_DIRS = [
+      "/var/lib/flatpak/exports/share"
+      "/home/fred/.local/share/flatpak/exports/share"
+    ];
   };
 
   # --- NIXPKGS ---

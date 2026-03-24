@@ -23,6 +23,10 @@ in
   home.homeDirectory = "/home/fred";
   home.stateVersion = "25.11";
 
+  home.shellAliases = {
+    rm = "trash-put";
+  };
+
   programs.home-manager.enable = true;
 
   stylix = {
@@ -50,9 +54,9 @@ in
       };
     };
     targets = {
-      waybar.enable = false;   # manual CSS
-      rofi.enable = false;     # manual rasi theme
-      helix.enable = false;    # manual theme in packages.nix
+      waybar.enable = false; # manual CSS
+      rofi.enable = false; # manual rasi theme
+      helix.enable = false; # manual theme in packages.nix
       ghostty.enable = true;
       gtk.enable = true;
     };
