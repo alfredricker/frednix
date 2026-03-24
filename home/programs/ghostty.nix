@@ -20,7 +20,7 @@
       resize-overlay = "never";
 
       # Font
-      font-size = 10;
+      font-size = 11;
 
       # Cursor
       cursor-style = "bar";

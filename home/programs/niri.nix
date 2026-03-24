@@ -78,6 +78,7 @@ in
       "Mod+P".action = spawn "pycharm";
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "flatpak run sh.cider.Cider";
+      "Mod+T".action = spawn "mission-center"
 
       "Mod+W".action = close-window;
       "Mod+Shift+W".action = spawn "waypaper";

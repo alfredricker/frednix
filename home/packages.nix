@@ -60,6 +60,7 @@ in
 
     # tui tools
     fastfetch
+    mission-center
 
     # python
     poetry
