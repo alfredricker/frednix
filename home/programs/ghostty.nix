@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   programs.ghostty = {
@@ -15,7 +20,7 @@
       resize-overlay = "never";
 
       # Font
-      font-size = 11;
+      font-size = 10;
 
       # Cursor
       cursor-style = "bar";
