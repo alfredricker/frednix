@@ -57,7 +57,7 @@ in
         opacity = 0.93;
       }
       {
-        matches = [ { app-id = "^jet$"; } ];
+        matches = [ { app-id = "(?i)pycharm"; } ];
         default-column-width = {
           proportion = 1.0;
         };
@@ -78,7 +78,7 @@ in
       "Mod+P".action = spawn "pycharm";
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "flatpak run sh.cider.Cider";
-      "Mod+T".action = spawn "mission-center"
+      "Mod+T".action = spawn "htop";
 
       "Mod+W".action = close-window;
       "Mod+Shift+W".action = spawn "waypaper";
