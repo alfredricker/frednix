@@ -25,6 +25,7 @@ in
 {
   home.packages = with pkgs; [
     # apps
+    discord-canary
     obsidian
     jetbrains.webstorm
     jetbrains.pycharm

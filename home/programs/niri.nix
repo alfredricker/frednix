@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   c = config.lib.stylix.colors;
@@ -12,7 +17,9 @@ in
     layout = {
       gaps = 8;
       center-focused-column = "on-overflow";
-      default-column-width = { proportion = 0.5; };
+      default-column-width = {
+        proportion = 0.5;
+      };
 
       border = {
         enable = true;
@@ -43,8 +50,17 @@ in
         clip-to-geometry = true;
       }
       {
-        matches = [{ app-id = "^chromium-browser$"; }];
-        default-column-width = { proportion = 1.0; };
+        matches = [ { app-id = "^chromium-browser$"; } ];
+        default-column-width = {
+          proportion = 1.0;
+        };
+        opacity = 0.93;
+      }
+      {
+        matches = [ { app-id = "^jet$"; } ];
+        default-column-width = {
+          proportion = 1.0;
+        };
         opacity = 0.93;
       }
     ];
@@ -55,33 +71,33 @@ in
     ];
 
     binds = with config.lib.niri.actions; {
-        # Mod key is usually Super (Windows key)
-        "Mod+Return".action = spawn "ghostty";
-	"Mod+B".action = spawn "chromium";
-	"Mod+O".action = spawn "obsidian";
-	"Mod+P".action = spawn "pycharm";                                                            
-        "Mod+W".action = close-window;
-        "Mod+Shift+W".action = spawn "waypaper";
-        "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
-        "Mod+Space".action = spawn "rofi" "-show" "drun";
-        "Mod+plus".action = set-column-width "+10%";
-        "Mod+minus".action = set-column-width "-10%";
-        "Mod+Shift+E".action = quit;                                                                    
-                                                                                                        
-        # Focus windows
-        "Mod+WheelScrollUp".action = focus-column-left;                                                             
-        "Mod+WheelScrollDown".action = focus-column-right;                                                            
-        "Mod+Up".action = focus-window-down;                                                             
-        "Mod+Down".action = focus-window-up;                                                               
-                                                                                                        
-        # Move windows
-        "Mod+Shift+H".action = move-column-left;                                                        
-        "Mod+Shift+L".action = move-column-right;
-                                                                                                        
-        # Workspaces
-        "Mod+1".action = focus-workspace 1;                                                             
-        "Mod+2".action = focus-workspace 2;
-	"Mod+3".action = focus-workspace 3;
-      };
+      # Mod key is usually Super (Windows key)
+      "Mod+Return".action = spawn "ghostty";
+      "Mod+B".action = spawn "chromium";
+      "Mod+O".action = spawn "obsidian";
+      "Mod+P".action = spawn "pycharm";
+      "Mod+W".action = close-window;
+      "Mod+Shift+W".action = spawn "waypaper";
+      "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
+      "Mod+Space".action = spawn "rofi" "-show" "drun";
+      "Mod+plus".action = set-column-width "+10%";
+      "Mod+minus".action = set-column-width "-10%";
+      "Mod+Shift+E".action = quit;
+
+      # Focus windows
+      "Mod+WheelScrollUp".action = focus-column-left;
+      "Mod+WheelScrollDown".action = focus-column-right;
+      "Mod+Up".action = focus-window-down;
+      "Mod+Down".action = focus-window-up;
+
+      # Move windows
+      "Mod+Shift+H".action = move-column-left;
+      "Mod+Shift+L".action = move-column-right;
+
+      # Workspaces
+      "Mod+1".action = focus-workspace 1;
+      "Mod+2".action = focus-workspace 2;
+      "Mod+3".action = focus-workspace 3;
     };
+  };
 }
