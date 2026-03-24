@@ -42,6 +42,8 @@ in
     wl-clipboard
     wlsunset
     wlr-randr
+    # niri doesn't support xwayland -- use xwayland satellite
+    xwayland-satellite
 
     # cli replacements & tools
     bat

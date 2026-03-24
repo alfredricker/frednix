@@ -13,7 +13,6 @@ in
 
   programs.niri.settings = {
     prefer-no-csd = true;
-    xwayland.enable = true;
 
     layout = {
       gaps = 8;
@@ -78,6 +77,8 @@ in
       "Mod+O".action = spawn "obsidian";
       "Mod+P".action = spawn "pycharm";
       "Mod+Shift+S".action = spawn "slack";
+      "Mod+M".action = spawn "flatpak run sh.cider.Cider";
+
       "Mod+W".action = close-window;
       "Mod+Shift+W".action = spawn "waypaper";
       "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
