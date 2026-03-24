@@ -1,0 +1,52 @@
+{ config, pkgs, lib, ... }:
+{ 
+ # Use the systemd-boot EFI boot loader.
+  boot = {
+    loader = {
+      # do NOT remove this
+      efi.canTouchEfiVariables = true;
+      # can change to GRUB
+      systemd-boot.enable = true;
+    };
+    #
+    plymouth = {
+      enable = true;
+      theme = "rings";
+      themePackages = with pkgs; [
+        # install all themes
+        (adi1090x-plymouth-themes.override {
+          selected_themes = [ "rings" ];
+        })
+      ];
+    };
+    # enable silent boot
+    consoleLogLevel = 3;
+    # rd shiz
+    initrd = {
+      verbose = false;
+      systemd.enable = true;
+      kernelModules = [
+        "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"
+      ];
+    };
+    kernelParams = [
+      "quiet" "udev.log_level=3" "systemd.show_status=auto"
+      "boot.shell_on_fail" "nvidia-drm.modeset=1" "nvidia-drm.fbdev=1"
+    ];
+  };
+
+  # --- Greetd Boot ---
+  services.greetd = {
+    enable = true;
+    settings = {
+      initial_session = {
+        command = "niri-session";
+        user = "fred";
+      };
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        user = "greeter";
+      };
+    };
+  };
+}
