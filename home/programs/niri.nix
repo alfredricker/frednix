@@ -77,7 +77,7 @@ in
       "Mod+O".action = spawn "obsidian";
       "Mod+P".action = spawn "pycharm";
       "Mod+Shift+S".action = spawn "slack";
-      "Mod+M".action = spawn "flatpak run sh.cider.Cider";
+      "Mod+M".action = spawn "feishin";
       "Mod+T".action = spawn "htop";
 
       "Mod+W".action = close-window;
@@ -97,6 +97,10 @@ in
       # Move windows
       "Mod+Shift+H".action = move-column-left;
       "Mod+Shift+L".action = move-column-right;
+
+      # Volume
+      "XF86AudioRaiseVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%+";
+      "XF86AudioLowerVolume".action = spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "2%-";
 
       # Workspaces
       "Mod+1".action = focus-workspace 1;

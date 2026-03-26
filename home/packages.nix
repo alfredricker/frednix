@@ -25,7 +25,6 @@ in
 {
   home.packages = with pkgs; [
     # apps
-    (pkgs.callPackage ./programs/cider.nix { })
     discord-canary
     feishin # music player
     obsidian # markdown notes
@@ -49,6 +48,7 @@ in
     bat
     eza
     fd
+    ffmpeg
     ripgrep
     delta
     dust
@@ -77,6 +77,7 @@ in
     trash-cli
 
     # misc
+    jellyfin
     fzf
     theme-switch
   ];

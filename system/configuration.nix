@@ -2,21 +2,29 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./boot.nix
-      ./programs.nix
-      ./programs/steam.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./boot.nix
+    ./programs.nix
+    ./programs/steam.nix
+  ];
 
-  
   # SETTINGS
   # --- ENABLE FLAKES ---
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   # allow sudo users to use nix channels
   nix.settings.allowed-users = [ "@wheel" ];
   environment.sessionVariables = {
@@ -49,8 +57,8 @@
       # Load Nvidia driver for xorg and wayland
       videoDrivers = [ "nvidia" ];
       xkb = {
-	layout = "us";
-	variant = "";
+        layout = "us";
+        variant = "";
       };
     };
     # AUDIO
@@ -66,6 +74,7 @@
     gvfs.enable = true; # allow trash, mounting, etc
     tumbler.enable = true; # generate image thumbnails
     openssh.enable = true;
+    mullvad-vpn.enable = true;
   };
 
   # --- HARDWARE SETTINGS ---
@@ -104,15 +113,19 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-     LC_ADDRESS = "en_US.UTF-8";
-     LC_IDENTIFICATION = "en_US.UTF-8";
+    LC_ADDRESS = "en_US.UTF-8";
+    LC_IDENTIFICATION = "en_US.UTF-8";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.fred = {
     isNormalUser = true;
     description = "fred";
-    extraGroups = [ "networkmanager" "wheel" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ]; # Enable ‘sudo’ for the user.
     shell = pkgs.fish;
     packages = with pkgs; [
       tree
@@ -160,4 +173,3 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
-

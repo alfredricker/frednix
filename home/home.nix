@@ -25,6 +25,7 @@ in
   home.stateVersion = "25.11";
 
   home.shellAliases = {
+    rmf = "command rm -rfI";
     rm = "trash-put";
   };
 

@@ -1,5 +1,5 @@
 {
-  pkgs ? import <nixpkgs> { system = builtins.currentSystem; },
+  pkgs,
   appimageTools ? pkgs.appimageTools,
   lib ? pkgs.lib,
 }:
@@ -15,8 +15,6 @@ appimageTools.wrapType2 rec {
       contents = appimageTools.extract { inherit pname version src; };
     in
     ''
-      mv $out/bin/${pname}-${version} $out/bin/${pname}
-
       install -m 444 -D ${contents}/${pname}.desktop -t $out/share/applications
       substituteInPlace $out/share/applications/${pname}.desktop \
         --replace 'Exec=AppRun' 'Exec=${pname}'
