@@ -17,6 +17,7 @@ in
     ./programs/starship.nix
     ./programs/waypaper.nix
     ./programs/rofi.nix
+    ./programs/nvim.nix
   ];
 
   home.username = "fred";

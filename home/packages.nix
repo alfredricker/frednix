@@ -25,10 +25,10 @@ in
 {
   home.packages = with pkgs; [
     # apps
+    (pkgs.callPackage ./programs/cider.nix { })
     discord-canary
-    obsidian
-    jetbrains.webstorm
-    jetbrains.pycharm
+    feishin # music player
+    obsidian # markdown notes
     slack
     claude-code
     tor-browser
@@ -71,6 +71,8 @@ in
     yarn
     cmake
     gcc
+    gnumake
+    tree-sitter
     rustup
     trash-cli
 

@@ -23,10 +23,6 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    XDG_DATA_DIRS = [
-      "/var/lib/flatpak/exports/share"
-      "/home/fred/.local/share/flatpak/exports/share"
-    ];
   };
 
   # --- NIXPKGS ---
@@ -136,6 +132,7 @@
     git
     cudatoolkit
     vulkan-tools
+    xdg-utils
   ];
 
   # Copy the NixOS configuration file and link it from the resulting system
