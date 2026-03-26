@@ -17,6 +17,7 @@
     ./boot.nix
     ./programs.nix
     ./programs/steam.nix
+    inputs.musnix.nixosModules.musnix
   ];
 
   # SETTINGS
@@ -31,6 +32,13 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
     _JAVA_AWT_WM_NONREPARENTING = "1";
+  };
+
+  # --- MUSNIX ---
+  musnix = {
+    enable = true;
+    kernel.realtime = true;
+    rtirq.enable = true;
   };
 
   # --- NIXPKGS ---
@@ -67,6 +75,7 @@
       pulse.enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
+      jack.enable = true;
     };
     # PRINTING
     printing.enable = true;
@@ -125,6 +134,8 @@
       "networkmanager"
       "wheel"
       "docker"
+      "audio"
+      "jackaudio"
     ]; # Enable ‘sudo’ for the user.
     shell = pkgs.fish;
     packages = with pkgs; [

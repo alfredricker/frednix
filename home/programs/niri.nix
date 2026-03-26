@@ -57,17 +57,28 @@ in
         opacity = 0.93;
       }
       {
-        matches = [ { app-id = "(?i)pycharm"; } ];
+        # FEISHIN
+        matches = [ { app-id = "(?i)feishin"; } ];
         default-column-width = {
-          proportion = 1.0;
+          proportion = 0.80;
         };
-        opacity = 0.93;
+        opacity = 0.95;
+      }
+      {
+        # NEOVIM (terminal title match)
+        matches = [ { title = "^nvim"; } ];
+        default-column-width = {
+          proportion = 0.85;
+        };
       }
     ];
 
     spawn-at-startup = [
       { command = [ "swww-daemon" ]; }
       { command = [ "waybar" ]; }
+      # note: spawning the jellyfin server on startup will consistently consume ram in the background
+      # comment this out if you want to manually start the music server to use feishin
+      { command = [ "jellyfin" ]; }
     ];
 
     binds = with config.lib.niri.actions; {
@@ -75,17 +86,17 @@ in
       "Mod+Return".action = spawn "ghostty";
       "Mod+B".action = spawn "chromium";
       "Mod+O".action = spawn "obsidian";
-      "Mod+P".action = spawn "pycharm";
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "feishin";
       "Mod+T".action = spawn "htop";
+      "Mod+C".action = spawn "nvim";
 
       "Mod+W".action = close-window;
       "Mod+Shift+W".action = spawn "waypaper";
       "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
       "Mod+Space".action = spawn "rofi" "-show" "drun";
-      "Mod+plus".action = set-column-width "+10%";
-      "Mod+minus".action = set-column-width "-10%";
+      "Mod+Shift+=".action = set-column-width "+10%";
+      "Mod+Shift+-".action = set-column-width "-10%";
       "Mod+Shift+E".action = quit;
 
       # Focus windows
