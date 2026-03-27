@@ -95,8 +95,8 @@ in
       "Mod+Shift+W".action = spawn "waypaper";
       "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
       "Mod+Space".action = spawn "rofi" "-show" "drun";
-      "Mod+Shift+equal".action = set-column-width "+10%";
-      "Mod+Shift+minus".action = set-column-width "-10%";
+      "Mod+plus".action = set-column-width "+10%";
+      "Mod+minus".action = set-column-width "-10%";
       "Mod+Shift+E".action = quit;
 
       # Focus windows

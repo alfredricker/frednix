@@ -24,6 +24,11 @@ in
   home.homeDirectory = "/home/fred";
   home.stateVersion = "25.11";
 
+  home.sessionVariables = {
+    PLAYWRIGHT_BROWSERS_PATH = "${pkgs.playwright-driver.browsers}";
+    PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1";
+  };
+
   home.shellAliases = {
     rmf = "command rm -rfI";
     rm = "trash-put";

@@ -12,6 +12,8 @@
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     musnix.url = "github:musnix/musnix";
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -42,6 +44,7 @@
               home-manager.sharedModules = [
                 stylix.homeModules.stylix
                 niri-flake.homeModules.niri
+                inputs.nixvim.homeModules.nixvim
               ];
               home-manager.users.fred = ./home/home.nix;
             }

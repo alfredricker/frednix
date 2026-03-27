@@ -85,6 +85,7 @@ in
     # python
     poetry
     python3
+    playwright-driver.browsers # nix-managed browser binaries for playwright
 
     # dev tools
     nodejs

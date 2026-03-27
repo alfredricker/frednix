@@ -23,6 +23,9 @@
       # Suppress greeting
       set -g fish_greeting
 
+      # C++ stdlib for Python native extensions (numpy, etc.) on NixOS
+      set -gx LD_LIBRARY_PATH ${pkgs.stdenv.cc.cc.lib}/lib $LD_LIBRARY_PATH
+
       # FZF defaults
       set -gx FZF_DEFAULT_OPTS "--reverse --height 40% --border"
 
