@@ -89,14 +89,14 @@ in
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "feishin";
       "Mod+T".action = spawn "htop";
-      "Mod+C".action = spawn "nvim";
+      "Mod+C".action = spawn "ghostty" "--title" "nvim" "-e" "nvim";
 
       "Mod+W".action = close-window;
       "Mod+Shift+W".action = spawn "waypaper";
       "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
       "Mod+Space".action = spawn "rofi" "-show" "drun";
-      "Mod+Shift+=".action = set-column-width "+10%";
-      "Mod+Shift+-".action = set-column-width "-10%";
+      "Mod+Shift+equal".action = set-column-width "+10%";
+      "Mod+Shift+minus".action = set-column-width "-10%";
       "Mod+Shift+E".action = quit;
 
       # Focus windows

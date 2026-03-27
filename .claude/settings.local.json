@@ -3,7 +3,11 @@
     "allow": [
       "Read(//home/fred/Projects/**)",
       "Read(//home/fred/**)",
-      "Read(//home/**)"
+      "Read(//home/**)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(nix-prefetch-github cwebster2:*)",
+      "Bash(nix store:*)"
     ]
   }
 }

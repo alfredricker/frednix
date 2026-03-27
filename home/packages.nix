@@ -110,21 +110,23 @@ in
 
   programs.git = {
     enable = true;
-    delta = {
-      enable = true;
-      options = {
-        navigate = true;
-        side-by-side = true;
-        line-numbers = true;
-        true-color = "always";
-      };
-    };
-    extraConfig = {
+    settings = {
       merge.conflictstyle = "diff3";
       diff.colorMoved = "default";
       pull.ff = "only";
       push.autoSetupRemote = true;
       init.defaultBranch = "main";
+    };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      side-by-side = true;
+      line-numbers = true;
+      true-color = "always";
     };
   };
 
