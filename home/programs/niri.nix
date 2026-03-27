@@ -70,6 +70,7 @@ in
         default-column-width = {
           proportion = 0.85;
         };
+        opacity = 0.95;
       }
     ];
 
@@ -89,13 +90,13 @@ in
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "feishin";
       "Mod+T".action = spawn "ghostty" "-e" "htop";
-      "Mod+C".action = spawn "ghostty" "--title" "nvim" "-e" "nvim";
+      "Mod+C".action = spawn "ghostty" "-e" "nvim";
 
       "Mod+W".action = close-window;
       "Mod+Shift+W".action = spawn "waypaper";
       "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
       "Mod+Space".action = spawn "rofi" "-show" "drun";
-      "Mod+plus".action = set-column-width "+10%";
+      "Mod+equal".action = set-column-width "+10%";
       "Mod+minus".action = set-column-width "-10%";
       "Mod+Shift+E".action = quit;
 
