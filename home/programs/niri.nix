@@ -88,7 +88,7 @@ in
       "Mod+O".action = spawn "obsidian";
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "feishin";
-      "Mod+T".action = spawn "htop";
+      "Mod+T".action = spawn "ghostty" "-e" "htop";
       "Mod+C".action = spawn "ghostty" "--title" "nvim" "-e" "nvim";
 
       "Mod+W".action = close-window;

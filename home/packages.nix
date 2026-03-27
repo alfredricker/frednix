@@ -1,6 +1,13 @@
 { config, pkgs, ... }:
 
 let
+  nixpoetry = pkgs.writeShellScriptBin "nixpoetry" ''
+    export PLAYWRIGHT_BROWSERS_PATH=${pkgs.playwright-driver.browsers}
+    export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
+    export PLAYWRIGHT_HOST_PLATFORM_OVERRIDE="ubuntu-24.04"
+    exec poetry "$@"
+  '';
+
   theme-switch = pkgs.writeShellScriptBin "theme-switch" ''
         themes="noctalia
     tokyo-night
@@ -85,7 +92,7 @@ in
     # python
     poetry
     python3
-    playwright-driver.browsers # nix-managed browser binaries for playwright
+    nixpoetry
 
     # dev tools
     nodejs
