@@ -41,6 +41,7 @@ in
     # music
     jellyfin # media server
     feishin # music player
+    nicotine-plus # p2p files
     bitwig-studio # DAW
     # music production - synths
     surge-xt # wavetable/subtractive/FM synth (VST3/CLAP)

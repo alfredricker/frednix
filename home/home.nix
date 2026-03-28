@@ -27,6 +27,8 @@ in
   home.shellAliases = {
     rmf = "command rm -rfI";
     rm = "trash-put";
+    setmeta = "/home/fred/Media/Music/scripts/set_metadata.py";
+    randomizetracks = "/home/fred/Media/Music/scripts/randomize_tracks.py";
   };
 
   programs.home-manager.enable = true;
