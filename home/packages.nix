@@ -61,6 +61,7 @@ in
 
     # editors
     zed-editor
+    gthumb # image editor
 
     # wayland utilities
     brightnessctl
