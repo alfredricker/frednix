@@ -93,18 +93,6 @@
         '';
       };
 
-      # yazi with cwd integration
-      yazi = {
-        description = "Open yazi, cd to its cwd on exit";
-        body = ''
-          set tmp (mktemp -t "yazi-cwd.XXXXXX")
-          command yazi $argv --cwd-file="$tmp"
-          if set cwd (command cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-            builtin cd -- "$cwd"
-          end
-          rm -f -- "$tmp"
-        '';
-      };
     };
 
     shellAliases = {

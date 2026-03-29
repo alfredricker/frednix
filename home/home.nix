@@ -12,7 +12,6 @@ in
     ./programs/waybar.nix
     ./programs/ghostty.nix
     ./programs/bottom.nix
-    ./programs/yazi.nix
     ./programs/fish.nix
     ./programs/starship.nix
     ./programs/waypaper.nix

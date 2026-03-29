@@ -42,6 +42,7 @@ in
     jellyfin # media server
     feishin # music player
     nicotine-plus # p2p files
+    puddletag # edit music metadata
     bitwig-studio # DAW
     # music production - synths
     surge-xt # wavetable/subtractive/FM synth (VST3/CLAP)
@@ -58,6 +59,9 @@ in
     carla # plugin host; bridges LV2 plugins into Bitwig as VST
     crosspipe # PipeWire patchbay for routing audio/MIDI
     audacity # audio editing and sampling
+
+    # file manager
+    nautilus
 
     # editors
     zed-editor

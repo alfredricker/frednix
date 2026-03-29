@@ -91,7 +91,7 @@ in
       "Mod+M".action = spawn "feishin";
       "Mod+T".action = spawn "ghostty" "-e" "htop";
       "Mod+C".action = spawn "ghostty" "-e" "nvim";
-      "Mod+F".action = spawn "yazi"
+      "Mod+F".action = spawn "nautilus";
 
       "Mod+W".action = close-window;
       "Mod+Shift+X".action = spawn "makoctl" "dismiss" "--all";
