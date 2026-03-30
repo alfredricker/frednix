@@ -72,6 +72,14 @@ in
         };
         opacity = 0.95;
       }
+      {
+        matches = [
+          { app-id = "^code$"; }
+          { app-id = "^Slack$"; }
+          { app-id = "^org\.gnome\.Nautilus$"; }
+        ];
+        opacity = 0.95;
+      }
     ];
 
     spawn-at-startup = [
