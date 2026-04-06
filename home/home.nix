@@ -61,6 +61,7 @@ in
       waybar.enable = false; # manual CSS
       rofi.enable = false; # manual rasi theme
       helix.enable = false; # manual theme in packages.nix
+      vscode.enable = false; # manual theme in programs/vscode.nix
       ghostty.enable = true;
       gtk.enable = true;
     };

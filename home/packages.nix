@@ -94,6 +94,7 @@ in
     # tui tools
     fastfetch
     htop
+    pulsemixer # pipewire/pulseaudio tui mixer
 
     # python
     poetry

@@ -73,8 +73,12 @@ in
         opacity = 0.95;
       }
       {
+        matches = [ { app-id = "^code$"; } ];
+        default-column-width = { proportion = 0.9; };
+        opacity = 0.95;
+      }
+      {
         matches = [
-          { app-id = "^code$"; }
           { app-id = "^Slack$"; }
           { app-id = "^org\.gnome\.Nautilus$"; }
         ];
