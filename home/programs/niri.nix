@@ -87,7 +87,7 @@ in
     ];
 
     spawn-at-startup = [
-      { command = [ "${pkgs.swww}/bin/swww-daemon" ]; }
+      { command = [ "awww-daemon" ]; }
       { command = [ "waybar" ]; }
       # note: spawning the jellyfin server on startup will consistently consume ram in the background
       # comment this out if you want to manually start the music server to use feishin
