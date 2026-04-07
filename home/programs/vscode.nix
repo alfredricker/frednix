@@ -36,7 +36,7 @@ in
     ];
 
     userSettings = {
-      "workbench.colorTheme" = "Shades of Purple Super Dark";
+      "workbench.colorTheme" = "Shades of Purple (Super Dark)";
       "editor.fontFamily" = "'mononoki', monospace";
       "editor.fontSize" = 14;
       "editor.formatOnSave" = true;
