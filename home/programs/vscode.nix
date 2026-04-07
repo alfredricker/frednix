@@ -39,7 +39,7 @@ in
       "workbench.colorTheme" = "Shades of Purple (Super Dark)";
       "editor.fontFamily" = "'mononoki', monospace";
       "editor.fontSize" = 14;
-      "editor.formatOnSave" = true;
+      "editor.formatOnSave" = false;
       "editor.defaultFormatter" = "esbenp.prettier-vscode";
       "[python]"."editor.defaultFormatter" = "ms-python.python";
       "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
