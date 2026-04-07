@@ -14,6 +14,7 @@
     musnix.url = "github:musnix/musnix";
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
   outputs =
@@ -32,6 +33,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
+            { nixpkgs.overlays = [ inputs.claude-code.overlays.default ]; }
             ./system/configuration.nix
             nix-index-database.nixosModules.nix-index
 

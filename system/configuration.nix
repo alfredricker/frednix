@@ -28,6 +28,9 @@
   ];
   # allow sudo users to use nix channels
   nix.settings.allowed-users = [ "@wheel" ];
+  # Limit CPU usage during builds to keep system responsive
+  nix.settings.max-jobs = 4;
+  nix.settings.cores = 4;
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
@@ -43,7 +46,7 @@
 
   # --- NIXPKGS ---
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.cudaSupport = true;
+  # nixpkgs.config.cudaSupport = true;
 
   # --- NIX INDEX (command-not-found replacement) ---
   programs.nix-index-database.comma.enable = true;
