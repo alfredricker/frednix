@@ -111,6 +111,9 @@ in
     rustup
     trash-cli
 
+    # work (bb) tools
+    awscli2
+
     # misc
     fzf
     theme-switch

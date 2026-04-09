@@ -74,7 +74,9 @@ in
       }
       {
         matches = [ { app-id = "^code$"; } ];
-        default-column-width = { proportion = 0.9; };
+        default-column-width = {
+          proportion = 0.9;
+        };
         opacity = 0.95;
       }
       {
@@ -102,7 +104,7 @@ in
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "feishin";
       "Mod+T".action = spawn "ghostty" "-e" "htop";
-      "Mod+C".action = spawn "ghostty" "-e" "nvim";
+      "Mod+C".action = spawn "vscode";
       "Mod+F".action = spawn "nautilus";
 
       "Mod+W".action = close-window;
