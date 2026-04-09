@@ -36,7 +36,10 @@ in
     monero-gui # cryptocurrency
     obsidian # markdown notes
     slack
+    # claude
     claude-code
+    poppler-utils # allows claude to read pdf files
+    # tor
     tor-browser
     # music
     jellyfin # media server
