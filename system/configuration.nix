@@ -174,6 +174,8 @@
     cudatoolkit
     vulkan-tools
     xdg-utils
+    pciutils
+    usbutils
   ];
 
   # Copy the NixOS configuration file and link it from the resulting system
