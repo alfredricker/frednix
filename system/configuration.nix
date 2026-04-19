@@ -90,6 +90,7 @@
   };
 
   # --- HARDWARE SETTINGS ---
+  hardware.enableRedistributableFirmware = true;
   # Enable OpenGL + Vulkan
   hardware.graphics = {
     enable = true;
