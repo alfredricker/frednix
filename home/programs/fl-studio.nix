@@ -49,7 +49,7 @@ let
     # ── Launch ────────────────────────────────────────────────────────────────
     # pw-jack makes PipeWire present itself as a JACK server to Wine
     exec ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" \
-      "$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 25/FL64.exe" "$@"
+      "$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 2025/FL64.exe" "$@"
   '';
 in
 {
@@ -62,14 +62,14 @@ in
   programs.niri.settings.window-rules = [
     {
       # Main FL Studio frame: 90% column width
-      matches = [{ title = "FL Studio 25"; }];
+      matches = [{ title = "FL Studio 2025"; }];
       default-column-width = { proportion = 0.9; };
     }
     {
       # Plugin GUIs, Mixer, Piano Roll, etc. — same Wine app-id but different title
       # These open as separate Wayland/X11 windows; keep them floating.
       matches  = [{ app-id = "^(fl64|fl studio)"; }];
-      excludes = [{ title  = "FL Studio 25"; }];
+      excludes = [{ title  = "FL Studio 2025"; }];
       open-floating = true;
     }
   ];
