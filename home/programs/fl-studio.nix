@@ -71,11 +71,12 @@ let
       "$WINESERVER" -w
 
       # wineasio — native JACK ASIO driver; gives FL Studio a real low-latency
-      # ASIO interface backed by PipeWire JACK
+      # ASIO interface backed by PipeWire JACK.
+      # regsvr32 must run inside pw-jack so the DLL can load libjack at registration time.
       echo "[flstudio]   wineasio..."
       cp "${pkgs.wineasio}/lib/wine/x86_64-windows/wineasio64.dll" \
         "$WINEPREFIX/drive_c/windows/system32/wineasio64.dll"
-      "$WINE" regsvr32 wineasio64.dll
+      ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" regsvr32 wineasio64.dll
       "$WINESERVER" -w
 
       touch "$WINEPREFIX/.patches-applied"
