@@ -74,6 +74,21 @@ let
       echo "[flstudio]   dxvk..."
       ${pkgs.winetricks}/bin/winetricks -q dxvk
 
+      echo "[flstudio]   d3dcompiler_47..."
+      ${pkgs.winetricks}/bin/winetricks -q d3dcompiler_47
+
+      echo "[flstudio]   corefonts..."
+      ${pkgs.winetricks}/bin/winetricks -q corefonts
+
+      echo "[flstudio]   mfc140..."
+      ${pkgs.winetricks}/bin/winetricks -q mfc140
+
+      echo "[flstudio]   vb6run..."
+      ${pkgs.winetricks}/bin/winetricks -q vb6run
+
+      echo "[flstudio]   dotnet48..."
+      ${pkgs.winetricks}/bin/winetricks -q dotnet48
+
       echo "[flstudio]   wineasio..."
       ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" \
         "C:\\windows\\system32\\regsvr32.exe" \
@@ -86,6 +101,15 @@ let
     fi
 
     # ── Launch ────────────────────────────────────────────────────────────────
+    # Pass --debug as first arg to enable Wine crash/exception logging to ~/flstudio-wine.log
+    if [ "''${1:-}" = "--debug" ]; then
+      shift
+      export WINEDEBUG="+seh,+loaddll,+module"
+      echo "[flstudio] Debug mode — logging to /tmp/flstudio-wine.log"
+      exec ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" "$FL64" "$@" \
+        2>&1 | tee /tmp/flstudio-wine.log
+    fi
+
     exec ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" "$FL64" "$@"
   '';
 in
