@@ -96,7 +96,7 @@ in
 
     # tui tools
     fastfetch
-    htop
+    gotop
     pulsemixer # pipewire/pulseaudio tui mixer
 
     # python

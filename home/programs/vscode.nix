@@ -15,7 +15,7 @@ in
     enable = true;
     package = pkgs.vscode; # Microsoft binary required for GitHub Copilot
 
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       # Python
       ms-python.python
       ms-python.debugpy
@@ -35,7 +35,7 @@ in
       shadesOfPurple
     ];
 
-    userSettings = {
+    profiles.default.userSettings = {
       "workbench.colorTheme" = "Shades of Purple (Super Dark)";
       "editor.fontFamily" = "'mononoki', monospace";
       "editor.fontSize" = 14;

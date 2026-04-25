@@ -48,8 +48,8 @@
       # file tree
       nvim-tree = {
         enable = true;
-        view.width = 30;
-        renderer.groupEmpty = true;
+        settings.view.width = 30;
+        settings.renderer.group_empty = true;
       };
 
       # syntax highlighting

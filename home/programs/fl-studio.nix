@@ -12,7 +12,7 @@ let
     export WINEDLLOVERRIDES="mscoree,mshtml="   # suppress Mono/Gecko install prompts
     export WINE_LARGE_ADDRESS_AWARE=1
 
-    WINE="${wine}/bin/wine64"
+    WINE="${wine}/bin/wine"
     WINESERVER="${wine}/bin/wineserver"
 
     # ── First run: init prefix and install FL Studio ──────────────────────────
@@ -48,7 +48,7 @@ let
 
     # ── Launch ────────────────────────────────────────────────────────────────
     # pw-jack makes PipeWire present itself as a JACK server to Wine
-    exec ${pkgs.pipewire}/bin/pw-jack "$WINE" \
+    exec ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" \
       "$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 25/FL64.exe" "$@"
   '';
 in

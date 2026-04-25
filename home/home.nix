@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   allThemes = import ./themes.nix { inherit pkgs; };
@@ -33,6 +33,14 @@ in
   };
 
   programs.home-manager.enable = true;
+
+  # Keep legacy gtk4 theme behavior (matches gtk3 theme set by stylix)
+  gtk.gtk4.theme = config.gtk.theme;
+
+  # useGlobalPkgs = true is set in flake.nix; nixvim internally sets nixpkgs
+  # options which conflicts — override them to empty here.
+  nixpkgs.config = lib.mkForce {};
+  nixpkgs.overlays = lib.mkForce [];
 
   stylix = {
     enable = true;

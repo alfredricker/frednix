@@ -103,7 +103,7 @@ in
       "Mod+O".action = spawn "obsidian";
       "Mod+Shift+S".action = spawn "slack";
       "Mod+M".action = spawn "feishin";
-      "Mod+T".action = spawn "ghostty" "-e" "htop";
+      "Mod+T".action = spawn "ghostty" "-e" "gotop";
       "Mod+C".action = spawn "vscode";
       "Mod+F".action = spawn "nautilus";
 
