@@ -9,65 +9,69 @@ let
     export WINEPREFIX="${winePrefix}"
     export WINEARCH=win64
     export WINEDEBUG="-all"
-    export WINEDLLOVERRIDES="mscoree,mshtml="   # suppress Mono/Gecko install prompts
+    export WINEDLLOVERRIDES="mscoree,mshtml="
     export WINE_LARGE_ADDRESS_AWARE=1
 
     WINE="${wine}/bin/wine"
     WINESERVER="${wine}/bin/wineserver"
+    FL64="$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 2025/FL64.exe"
 
     # ── First run: init prefix and install FL Studio ──────────────────────────
-    if [ ! -f "$WINEPREFIX/.fl-studio-installed" ]; then
+    if [ ! -f "$FL64" ]; then
       echo "[flstudio] First run — initialising Wine prefix..."
 
       "$WINE" wineboot --init
       "$WINESERVER" -w
 
-      # Windows 10
       "$WINE" reg add \
         'HKLM\Software\Microsoft\Windows NT\CurrentVersion' \
         /v CurrentVersion /t REG_SZ /d '10.0' /f
 
-      # Visual C++ 2019 runtime — required by FL Studio
       echo "[flstudio] Installing vcrun2019 via winetricks (needs internet, once only)..."
       ${pkgs.winetricks}/bin/winetricks -q vcrun2019
       "$WINESERVER" -w
 
       if [ ! -f "${installerPath}" ]; then
         echo "[flstudio] ERROR: installer not found at ${installerPath}"
-        echo "           Place your FL Studio .exe there and re-run flstudio."
         exit 1
       fi
 
-      echo "[flstudio] Running FL Studio installer silently..."
+      echo "[flstudio] Running FL Studio installer (this may take a few minutes)..."
       "$WINE" "${installerPath}" /S
+
+      echo "[flstudio] Waiting for installation to complete..."
+      WAIT=0
+      until [ -f "$FL64" ] || [ "$WAIT" -ge 120 ]; do
+        sleep 2
+        WAIT=$((WAIT + 2))
+      done
       "$WINESERVER" -w
 
-      touch "$WINEPREFIX/.fl-studio-installed"
+      if [ ! -f "$FL64" ]; then
+        echo "[flstudio] ERROR: FL64.exe not found after install — check installer manually."
+        exit 1
+      fi
+
       echo "[flstudio] Installation complete."
     fi
 
     # ── Launch ────────────────────────────────────────────────────────────────
-    # pw-jack makes PipeWire present itself as a JACK server to Wine
-    exec ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" \
-      "$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 2025/FL64.exe" "$@"
+    exec ${pkgs.pipewire.jack}/bin/pw-jack "$WINE" "$FL64" "$@"
   '';
 in
 {
   home.packages = [ flstudio wine pkgs.winetricks ];
 
   # ── Niri window rules ──────────────────────────────────────────────────────
-  # Wine runs via xwayland-satellite; app-id reflects WM_CLASS set by Wine.
   # Run `niri msg windows` after first launch to verify the exact app-id if
-  # these rules don't fire — Wine sometimes uses the exe name or window title.
+  # these rules don't fire.
   programs.niri.settings.window-rules = [
     {
-      # Main FL Studio frame: 90% column width
       matches = [{ title = "FL Studio 2025"; }];
       default-column-width = { proportion = 0.9; };
     }
     {
-      # Plugin GUIs, Mixer, Piano Roll, etc. — same Wine app-id but different title
-      # These open as separate Wayland/X11 windows; keep them floating.
+      # Plugin GUIs, Mixer, Piano Roll — separate Wine windows, keep floating
       matches  = [{ app-id = "^(fl64|fl studio)"; }];
       excludes = [{ title  = "FL Studio 2025"; }];
       open-floating = true;
