@@ -9,14 +9,19 @@ let
     export WINEPREFIX="${winePrefix}"
     export WINEARCH=win64
     export WINEDEBUG="-all"
-    export WINEDLLOVERRIDES="mscoree,mshtml="
     export WINE_LARGE_ADDRESS_AWARE=1
+
+    # wineasio=b: use the builtin (native) wineasio instead of any Windows version
+    export WINEDLLOVERRIDES="mscoree,mshtml=;wineasio=b"
+
+    # Tells Wine where to find wineasio64.dll.so (the Unix-side builtin)
+    export WINEDLLPATH="${pkgs.wineasio}/lib/wine"
 
     WINE="${wine}/bin/wine"
     WINESERVER="${wine}/bin/wineserver"
     FL64="$WINEPREFIX/drive_c/Program Files/Image-Line/FL Studio 2025/FL64.exe"
 
-    # ── First run: init prefix and install FL Studio ──────────────────────────
+    # ── Install FL Studio (first run only) ────────────────────────────────────
     if [ ! -f "$FL64" ]; then
       echo "[flstudio] First run — initialising Wine prefix..."
 
@@ -27,16 +32,12 @@ let
         'HKLM\Software\Microsoft\Windows NT\CurrentVersion' \
         /v CurrentVersion /t REG_SZ /d '10.0' /f
 
-      echo "[flstudio] Installing vcrun2019 via winetricks (needs internet, once only)..."
-      ${pkgs.winetricks}/bin/winetricks -q vcrun2019
-      "$WINESERVER" -w
-
       if [ ! -f "${installerPath}" ]; then
         echo "[flstudio] ERROR: installer not found at ${installerPath}"
         exit 1
       fi
 
-      echo "[flstudio] Running FL Studio installer (this may take a few minutes)..."
+      echo "[flstudio] Running FL Studio installer..."
       "$WINE" "${installerPath}" /S
 
       echo "[flstudio] Waiting for installation to complete..."
@@ -48,11 +49,38 @@ let
       "$WINESERVER" -w
 
       if [ ! -f "$FL64" ]; then
-        echo "[flstudio] ERROR: FL64.exe not found after install — check installer manually."
+        echo "[flstudio] ERROR: FL64.exe not found after install."
         exit 1
       fi
 
-      echo "[flstudio] Installation complete."
+      echo "[flstudio] FL Studio installed."
+    fi
+
+    # ── Apply patches (idempotent, re-runs if patches change) ─────────────────
+    if [ ! -f "$WINEPREFIX/.patches-applied" ]; then
+      echo "[flstudio] Applying Wine patches (needs internet, once only)..."
+
+      # vcrun2019 is a superset of 2015/2017 — covers all stock plugin requirements
+      echo "[flstudio]   vcrun2019..."
+      ${pkgs.winetricks}/bin/winetricks -q vcrun2019
+      "$WINESERVER" -w
+
+      # DXVK — translates D3D9/10/11 → Vulkan, fixes browser panel flashing
+      echo "[flstudio]   dxvk..."
+      ${pkgs.winetricks}/bin/winetricks -q dxvk
+      "$WINESERVER" -w
+
+      # wineasio — native JACK ASIO driver; gives FL Studio a real low-latency
+      # ASIO interface backed by PipeWire JACK
+      echo "[flstudio]   wineasio..."
+      cp "${pkgs.wineasio}/lib/wine/x86_64-windows/wineasio64.dll" \
+        "$WINEPREFIX/drive_c/windows/system32/wineasio64.dll"
+      "$WINE" regsvr32 wineasio64.dll
+      "$WINESERVER" -w
+
+      touch "$WINEPREFIX/.patches-applied"
+      echo "[flstudio] Patches applied."
+      echo "[flstudio] In FL Studio: Options > Audio Settings > select 'wineasio' as driver."
     fi
 
     # ── Launch ────────────────────────────────────────────────────────────────
@@ -60,7 +88,7 @@ let
   '';
 in
 {
-  home.packages = [ flstudio wine pkgs.winetricks ];
+  home.packages = [ flstudio wine pkgs.winetricks pkgs.wineasio ];
 
   # ── Niri window rules ──────────────────────────────────────────────────────
   # Run `niri msg windows` after first launch to verify the exact app-id if
