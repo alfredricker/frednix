@@ -31,6 +31,9 @@ in
       github.copilot
       github.copilot-chat
 
+      # Nix
+      jnoortheen.nix-ide
+
       # Theme
       shadesOfPurple
     ];

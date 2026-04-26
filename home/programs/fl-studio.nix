@@ -116,6 +116,17 @@ in
 {
   home.packages = [ flstudio wine pkgs.winetricks pkgs.wineasio ];
 
+  home.activation.flstudioProjectDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    projectDir="$HOME/Media/Music/projects"
+    wineTarget="$HOME/.local/share/fl-studio/wineprefix/drive_c/users/fred/Documents/Image-Line/FL Studio"
+    mkdir -p "$projectDir"
+    mkdir -p "$wineTarget"
+    if [ ! -L "$wineTarget/Projects" ]; then
+      rm -rf "$wineTarget/Projects"
+      ln -s "$projectDir" "$wineTarget/Projects"
+    fi
+  '';
+
   programs.niri.settings.window-rules = [
     {
       matches = [{ title = "FL Studio 2025"; }];
