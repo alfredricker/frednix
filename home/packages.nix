@@ -65,6 +65,7 @@ in
 
     # file manager
     nautilus
+    unrar
 
     # editors
     zed-editor
