@@ -100,6 +100,25 @@ let
       echo "[flstudio] In FL Studio: Options > Audio Settings > select 'wineasio' as driver."
     fi
 
+    # ── Install new plugins from ~/Media/Music/software/plugins/ ─────────────
+    PLUGIN_DIR="$HOME/Media/Music/software/plugins"
+    PLUGIN_MANIFEST="$WINEPREFIX/.installed-plugins"
+    touch "$PLUGIN_MANIFEST"
+    if [ -d "$PLUGIN_DIR" ]; then
+      for installer in "$PLUGIN_DIR"/*.exe; do
+        [ -f "$installer" ] || continue
+        name="$(basename "$installer")"
+        if ! grep -qxF "$name" "$PLUGIN_MANIFEST"; then
+          echo "[flstudio] New plugin installer detected: $name"
+          echo "[flstudio] Running installer — complete setup in the GUI window..."
+          "$WINE" "$installer"
+          "$WINESERVER" -k
+          echo "$name" >> "$PLUGIN_MANIFEST"
+          echo "[flstudio] $name recorded in manifest."
+        fi
+      done
+    fi
+
     # ── Launch ────────────────────────────────────────────────────────────────
     # Pass --debug as first arg to enable Wine crash/exception logging to ~/flstudio-wine.log
     if [ "''${1:-}" = "--debug" ]; then

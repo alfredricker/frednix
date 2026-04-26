@@ -103,31 +103,48 @@ You can do the same for Samples, Presets, etc. by adding more `ln -s` lines.
 
 ## Windows plugins (Serum, Massive, Waves, etc.)
 
-**Short answer: commercial plugins cannot be fetched declaratively.** They require account
-login, license activation servers, and sometimes custom installers. There is no stable,
-hashable download URL.
+### Auto-installer manifest
 
-**Practical workflow:**
+Drop any Windows plugin `.exe` into `~/Media/Music/software/plugins/`. On the next
+`flstudio` launch, the script detects files not yet in the manifest and runs each one
+interactively (GUI installer — click through as normal). When the installer closes, the
+filename is recorded and it won't run again.
 
-1. Download the Windows VST3/VST2 installer from the vendor's site manually.
-2. Run the installer inside the Wine prefix:
-   ```bash
-   WINEPREFIX=~/.local/share/fl-studio/wineprefix wine ~/Downloads/SerumSetup.exe
-   ```
-3. FL Studio will auto-detect VST3 plugins in `C:\Program Files\Common Files\VST3`.
-   For VST2, point FL Studio at the install directory:
-   **Options → Manage plugins → Add search path**
+**Manifest location:** `~/.local/share/fl-studio/wineprefix/.installed-plugins`
+One filename per line.
 
-**Free/open plugins that could be fetched declaratively:**
+**To re-run an installer** (e.g. to repair or update a plugin):
+```bash
+sed -i '/SerumSetup.exe/d' ~/.local/share/fl-studio/wineprefix/.installed-plugins
+# then relaunch flstudio
+```
 
-Some free Windows plugins have stable GitHub release URLs. You could add a `fetchurl`
-block in fl-studio.nix to download the DLL to a declared path, then symlink it into the
-prefix's VST directory. This is only viable for plugins with:
-- A stable, versioned download URL
-- A known SHA256 hash
-- A simple DLL drop (no installer required)
+**To re-run all plugin installers:**
+```bash
+> ~/.local/share/fl-studio/wineprefix/.installed-plugins
+# then relaunch flstudio
+```
 
-Example skeleton (not wired up yet):
+After installation, FL Studio auto-detects VST3 plugins placed in:
+`C:\Program Files\Common Files\VST3`
+
+For VST2, add the install directory manually:
+**Options → Manage plugins → Add search path**
+
+### Note on commercial plugins
+
+Serum, Massive, Waves etc. require license activation after install (iLok, account login,
+etc.) — that step is always manual. The manifest handles the installer run; activation
+happens inside FL Studio or the plugin's own launcher.
+
+Waves in particular uses Waves Central (a separate Windows app) for license management —
+drop the Waves Central installer in the plugins folder and it will run on next launch.
+
+### Free/open plugins (declarative DLL drop)
+
+Some free plugins are a single DLL with no installer. These can be declared in
+`fl-studio.nix` with `fetchurl` and symlinked directly into the VST directory:
+
 ```nix
 let
   somePlugin = pkgs.fetchurl {
@@ -135,10 +152,6 @@ let
     sha256 = "...";
   };
 in
-# then in activation script:
+# in home.activation or the launch script:
 # ln -sf ${somePlugin} "$WINEPREFIX/drive_c/Program Files/Common Files/VST3/someplugin.dll"
 ```
-
-Waves and similar commercial suites use their own license managers (Waves Central, iLok)
-which are themselves Windows apps — realistically these are installed manually and live
-entirely in the mutable wineprefix.
