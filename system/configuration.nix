@@ -17,6 +17,7 @@
     ./boot.nix
     ./programs.nix
     ./programs/steam.nix
+    ./programs/virt.nix
     inputs.musnix.nixosModules.musnix
   ];
 
@@ -54,6 +55,7 @@
 
   # --- VIRTUALISATION ---
   virtualisation.docker.enable = true;
+  # libvirtd + KVM config is in programs/virt.nix
 
   # --- BLUETOOTH ---
   hardware.bluetooth.enable = true;

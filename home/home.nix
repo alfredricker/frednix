@@ -9,7 +9,6 @@ in
   imports = [
     ./packages.nix
     ./programs/niri.nix
-    ./programs/fl-studio.nix
     ./programs/waybar.nix
     ./programs/ghostty.nix
     ./programs/bottom.nix

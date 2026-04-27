@@ -46,18 +46,6 @@ in
     feishin # music player
     nicotine-plus # p2p files
     puddletag # edit music metadata
-    bitwig-studio # DAW
-    # music production - synths
-    surge-xt # wavetable/subtractive/FM synth (VST3/CLAP)
-    cardinal # VCV Rack as a plugin - modular synthesis (CLAP/VST3/LV2)
-    helm # polyphonic wavetable synth (LV2)
-    # music production - samplers
-    sfizz # SFZ format sampler (VST3/LV2/CLAP)
-    fluidsynth # SF2 soundfont player
-    qsynth # GUI for fluidsynth
-    # music production - effects (LV2/VST3/CLAP)
-    lsp-plugins # comprehensive effects suite: reverb, EQ, compressor, etc.
-    dragonfly-reverb # quality reverb algorithms
     # music production - utilities
     carla # plugin host; bridges LV2 plugins into Bitwig as VST
     crosspipe # PipeWire patchbay for routing audio/MIDI
@@ -65,7 +53,6 @@ in
 
     # file manager
     nautilus
-    unrar
 
     # editors
     zed-editor
@@ -94,6 +81,7 @@ in
     wl-clipboard
     zip
     unzip
+    unrar
 
     # tui tools
     fastfetch
