@@ -32,6 +32,14 @@
       Type = "simple";
       # --shared-dir: share the whole Music tree so projects + presets are visible
       ExecStart = "${pkgs.virtiofsd}/bin/virtiofsd --socket-path=/run/virtiofsd/music.sock --shared-dir=/home/fred/Media/Music --sandbox=namespace";
+      # Poll until the socket appears, then open permissions so libvirtd can connect
+      ExecStartPost = pkgs.writeShellScript "virtiofsd-chmod" ''
+        for i in $(seq 1 50); do
+          [ -S /run/virtiofsd/music.sock ] && exec ${pkgs.coreutils}/bin/chmod 0777 /run/virtiofsd/music.sock
+          sleep 0.1
+        done
+        echo "virtiofsd socket did not appear" >&2; exit 1
+      '';
       RuntimeDirectory = "virtiofsd";
       RuntimeDirectoryMode = "0755";
       UMask = "0000";
