@@ -4,7 +4,6 @@
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      ovmf.enable = true;   # UEFI — required for Windows 11
       swtpm.enable = true;  # TPM 2.0 emulation — required for Windows 11
       runAsRoot = false;
     };
@@ -19,7 +18,7 @@
     virt-manager    # full GUI for VM setup/config
     virt-viewer     # lightweight SPICE window for daily use
     spice-gtk       # SPICE client libs (needed by virt-viewer)
-    win-virtio      # VirtIO drivers ISO to load during Tiny11 install
+    virtio-win      # VirtIO drivers ISO to load during Tiny11 install
     virtiofsd       # host-side daemon for virtiofs shared folders
   ];
 
@@ -34,9 +33,10 @@
       # --shared-dir: share the whole Music tree so projects + presets are visible
       ExecStart = "${pkgs.virtiofsd}/bin/virtiofsd --socket-path=/run/virtiofsd/music.sock --shared-dir=/home/fred/Media/Music --sandbox=namespace";
       RuntimeDirectory = "virtiofsd";
-      RuntimeDirectoryMode = "0750";
+      RuntimeDirectoryMode = "0755";
+      UMask = "0000";
       User = "fred";
-      Group = "fred";
+      Group = "users";
       Restart = "on-failure";
     };
   };
