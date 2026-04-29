@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   # RTX 5070 Ti PCI addresses
@@ -28,6 +28,11 @@ in
     "libvirtd"
     "kvm"
   ];
+
+  # Strip the TPM-sealed credential requirement — we don't use libvirt secrets encryption.
+  # The upstream unit sets LoadCredentialEncrypted which breaks after kernel param changes.
+  systemd.services.libvirtd.serviceConfig.LoadCredentialEncrypted = lib.mkForce "";
+  systemd.services.virt-secret-init-encryption.enable = false;
 
   # /dev/shm/looking-glass — shared memory frame relay between Windows VM and client.
   # Size: 128 MiB covers up to 4K. Must match the IVSHMEM size in win11.xml.
