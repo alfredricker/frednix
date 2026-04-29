@@ -42,7 +42,9 @@
     <vmport state='off'/>
     <smm state='on'/>
   </features>
-  <cpu mode='host-passthrough' check='none' migratable='on'/>
+  <cpu mode='host-passthrough' check='none' migratable='on'>
+    <feature policy='require' name='topoext'/>
+  </cpu>
   <clock offset='localtime'>
     <timer name='rtc' tickpolicy='catchup'/>
     <timer name='pit' tickpolicy='delay'/>
@@ -193,6 +195,7 @@
     <graphics type='spice' autoport='yes'>
       <listen type='address'/>
       <image compression='off'/>
+      <resolution x='1920' y='1080'>
     </graphics>
     <video>
       <model type='none'/>

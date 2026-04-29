@@ -23,6 +23,11 @@ in
   home.username = "fred";
   home.homeDirectory = "/home/fred";
   home.stateVersion = "25.11";
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 16;
+  };
 
   home.shellAliases = {
     rmf = "command rm -rfI";
@@ -35,7 +40,6 @@ in
 
   # Keep legacy gtk4 theme behavior (matches gtk3 theme set by stylix)
   gtk.gtk4.theme = config.gtk.theme;
-
 
   stylix = {
     enable = true;
