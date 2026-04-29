@@ -32,12 +32,13 @@ in
   # Strip the TPM-sealed credential requirement — we don't use libvirt secrets encryption.
   # The upstream unit sets LoadCredentialEncrypted which breaks after kernel param changes.
   systemd.services.libvirtd.serviceConfig.LoadCredentialEncrypted = lib.mkForce "";
-  systemd.services.virt-secret-init-encryption.enable = false;
+  # Make the encryption-key init a no-op rather than masking it (socket depends on it existing).
+  systemd.services.virt-secret-init-encryption.serviceConfig.ExecStart = lib.mkForce "${pkgs.coreutils}/bin/true";
 
   # /dev/shm/looking-glass — shared memory frame relay between Windows VM and client.
   # Size: 128 MiB covers up to 4K. Must match the IVSHMEM size in win11.xml.
   systemd.tmpfiles.rules = [
-    "f /dev/shm/looking-glass 0660 fred kvm -"
+    "f /dev/shm/looking-glass 0666 fred kvm -"
   ];
 
   environment.systemPackages = with pkgs; [
@@ -84,7 +85,7 @@ in
       UMask = "0000";
       User = "fred";
       Group = "users";
-      Restart = "on-failure";
+      Restart = "always";
     };
   };
 }
