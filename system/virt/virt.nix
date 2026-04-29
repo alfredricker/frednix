@@ -13,12 +13,12 @@ let
     [ "$GUEST" = "win11" ] || exit 0
 
     bind_vfio() {
-      # Detach from nvidia
-      echo "${gpuVideo}" > /sys/bus/pci/devices/${gpuVideo}/driver/unbind 2>/dev/null || true
-      echo "${gpuAudio}" > /sys/bus/pci/devices/${gpuAudio}/driver/unbind 2>/dev/null || true
-      # Unload nvidia stack
-      ${pkgs.kmod}/bin/modprobe -r nvidia_drm nvidia_modeset nvidia_uvm nvidia
-      # Attach to vfio-pci
+      # Unbind from current driver (nvidia / snd_hda_intel) without unloading modules
+      [ -e /sys/bus/pci/devices/${gpuVideo}/driver ] && \
+        echo "${gpuVideo}" > /sys/bus/pci/devices/${gpuVideo}/driver/unbind
+      [ -e /sys/bus/pci/devices/${gpuAudio}/driver ] && \
+        echo "${gpuAudio}" > /sys/bus/pci/devices/${gpuAudio}/driver/unbind
+      # Steer both devices to vfio-pci via driver_override then bind
       echo "vfio-pci" > /sys/bus/pci/devices/${gpuVideo}/driver_override
       echo "vfio-pci" > /sys/bus/pci/devices/${gpuAudio}/driver_override
       echo "${gpuVideo}" > /sys/bus/pci/drivers/vfio-pci/bind
@@ -26,17 +26,17 @@ let
     }
 
     bind_nvidia() {
-      # Detach from vfio-pci
-      echo "${gpuVideo}" > /sys/bus/pci/drivers/vfio-pci/unbind 2>/dev/null || true
-      echo "${gpuAudio}" > /sys/bus/pci/drivers/vfio-pci/unbind 2>/dev/null || true
-      # Clear override so nvidia can claim it normally
+      # Unbind from vfio-pci
+      [ -e /sys/bus/pci/devices/${gpuVideo}/driver ] && \
+        echo "${gpuVideo}" > /sys/bus/pci/drivers/vfio-pci/unbind
+      [ -e /sys/bus/pci/devices/${gpuAudio}/driver ] && \
+        echo "${gpuAudio}" > /sys/bus/pci/drivers/vfio-pci/unbind
+      # Clear override so each device returns to its native driver
       echo "" > /sys/bus/pci/devices/${gpuVideo}/driver_override
       echo "" > /sys/bus/pci/devices/${gpuAudio}/driver_override
-      # Reload nvidia stack
-      ${pkgs.kmod}/bin/modprobe nvidia
-      ${pkgs.kmod}/bin/modprobe nvidia_modeset
-      ${pkgs.kmod}/bin/modprobe nvidia_uvm
-      ${pkgs.kmod}/bin/modprobe nvidia_drm modeset=1
+      # Explicitly re-bind (modules are still loaded — no modprobe needed)
+      echo "${gpuVideo}" > /sys/bus/pci/drivers/nvidia/bind
+      echo "${gpuAudio}" > /sys/bus/pci/drivers/snd_hda_intel/bind
     }
 
     if   [ "$HOOK" = "prepare" ] && [ "$STATE" = "begin" ]; then bind_vfio
