@@ -1,5 +1,49 @@
 { pkgs, ... }:
 
+let
+  # RTX 5070 Ti PCI addresses
+  gpuVideo = "0000:01:00.0";
+  gpuAudio = "0000:01:00.1";
+
+  # Script run by libvirt before/after the win11 VM starts/stops.
+  # prepare/begin  → strip nvidia, hand card to vfio-pci
+  # release/end    → return card to nvidia
+  qemuHook = pkgs.writeShellScript "qemu-hook" ''
+    GUEST="$1"; HOOK="$2"; STATE="$3"
+    [ "$GUEST" = "win11" ] || exit 0
+
+    bind_vfio() {
+      # Detach from nvidia
+      echo "${gpuVideo}" > /sys/bus/pci/devices/${gpuVideo}/driver/unbind 2>/dev/null || true
+      echo "${gpuAudio}" > /sys/bus/pci/devices/${gpuAudio}/driver/unbind 2>/dev/null || true
+      # Unload nvidia stack
+      ${pkgs.kmod}/bin/modprobe -r nvidia_drm nvidia_modeset nvidia_uvm nvidia
+      # Attach to vfio-pci
+      echo "vfio-pci" > /sys/bus/pci/devices/${gpuVideo}/driver_override
+      echo "vfio-pci" > /sys/bus/pci/devices/${gpuAudio}/driver_override
+      echo "${gpuVideo}" > /sys/bus/pci/drivers/vfio-pci/bind
+      echo "${gpuAudio}" > /sys/bus/pci/drivers/vfio-pci/bind
+    }
+
+    bind_nvidia() {
+      # Detach from vfio-pci
+      echo "${gpuVideo}" > /sys/bus/pci/drivers/vfio-pci/unbind 2>/dev/null || true
+      echo "${gpuAudio}" > /sys/bus/pci/drivers/vfio-pci/unbind 2>/dev/null || true
+      # Clear override so nvidia can claim it normally
+      echo "" > /sys/bus/pci/devices/${gpuVideo}/driver_override
+      echo "" > /sys/bus/pci/devices/${gpuAudio}/driver_override
+      # Reload nvidia stack
+      ${pkgs.kmod}/bin/modprobe nvidia
+      ${pkgs.kmod}/bin/modprobe nvidia_modeset
+      ${pkgs.kmod}/bin/modprobe nvidia_uvm
+      ${pkgs.kmod}/bin/modprobe nvidia_drm modeset=1
+    }
+
+    if   [ "$HOOK" = "prepare" ] && [ "$STATE" = "begin" ]; then bind_vfio
+    elif [ "$HOOK" = "release" ] && [ "$STATE" = "end"   ]; then bind_nvidia
+    fi
+  '';
+in
 {
   virtualisation.libvirtd = {
     enable = true;
@@ -7,9 +51,16 @@
       swtpm.enable = true;  # TPM 2.0 emulation — required for Windows 11
       runAsRoot = false;
     };
+    hooks.qemu = { vfio-passthrough = "${qemuHook}"; };
   };
 
-  users.users.fred.extraGroups = [ "libvirtd" ];
+  users.users.fred.extraGroups = [ "libvirtd" "kvm" ];
+
+  # /dev/shm/looking-glass — shared memory frame relay between Windows VM and client.
+  # Size: 128 MiB covers up to 4K. Must match the IVSHMEM size in win11.xml.
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/looking-glass 0660 fred kvm -"
+  ];
 
   environment.systemPackages = with pkgs; [
     looking-glass-client
