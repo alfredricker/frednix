@@ -25,13 +25,14 @@
     initrd = {
       verbose = false;
       systemd.enable = true;
-      kernelModules = [
-        "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"
-      ];
+      kernelModules = [ "amdgpu" "vfio" "vfio_iommu_type1" "vfio_pci" ];
     };
+    kernelModules = [ "kvm-amd" ];
     kernelParams = [
       "quiet" "udev.log_level=3" "systemd.show_status=auto"
-      "boot.shell_on_fail" "nvidia-drm.modeset=1" "nvidia-drm.fbdev=1"
+      "boot.shell_on_fail"
+      "amd_iommu=on" "iommu=pt"
+      "nvidia-drm.modeset=1" "nvidia-drm.fbdev=1"
     ];
   };
 
