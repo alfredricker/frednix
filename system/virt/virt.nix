@@ -48,13 +48,18 @@ in
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      swtpm.enable = true;  # TPM 2.0 emulation — required for Windows 11
+      swtpm.enable = true; # TPM 2.0 emulation — required for Windows 11
       runAsRoot = false;
     };
-    hooks.qemu = { vfio-passthrough = "${qemuHook}"; };
+    hooks.qemu = {
+      vfio-passthrough = "${qemuHook}";
+    };
   };
 
-  users.users.fred.extraGroups = [ "libvirtd" "kvm" ];
+  users.users.fred.extraGroups = [
+    "libvirtd"
+    "kvm"
+  ];
 
   # /dev/shm/looking-glass — shared memory frame relay between Windows VM and client.
   # Size: 128 MiB covers up to 4K. Must match the IVSHMEM size in win11.xml.
@@ -65,6 +70,7 @@ in
   environment.systemPackages = with pkgs; [
     looking-glass-client
     virtiofsd
+    spice-gtk
   ];
 
   # Sync ~/virt/win11.xml → /var/lib/libvirt/qemu/win11.xml on any save.
@@ -72,14 +78,14 @@ in
     description = "Sync win11.xml into libvirt";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.coreutils}/bin/cp /home/fred/virt/win11.xml /var/lib/libvirt/qemu/win11.xml";
+      ExecStart = "${pkgs.coreutils}/bin/cp /etc/nixos/system/virt/win11.xml /var/lib/libvirt/qemu/win11.xml";
     };
   };
 
   systemd.paths.sync-win11-xml = {
-    description = "Watch ~/virt/win11.xml for changes";
+    description = "Watch /etc/nixos/system/virt/win11.xml for changes";
     wantedBy = [ "multi-user.target" ];
-    pathConfig.PathChanged = "/home/fred/virt/win11.xml";
+    pathConfig.PathChanged = "/etc/nixos/system/virt/win11.xml";
   };
 
   # virtiofsd daemon sharing ~/Media/Music into the VM.

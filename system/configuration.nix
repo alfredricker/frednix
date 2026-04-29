@@ -17,7 +17,7 @@
     ./boot.nix
     ./programs.nix
     ./programs/steam.nix
-    ./programs/virt.nix
+    ./virt/virt.nix
     inputs.musnix.nixosModules.musnix
   ];
 
