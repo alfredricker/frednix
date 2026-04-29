@@ -9,39 +9,7 @@ let
   # prepare/begin  → strip nvidia, hand card to vfio-pci
   # release/end    → return card to nvidia
   qemuHook = pkgs.writeShellScript "qemu-hook" ''
-    GUEST="$1"; HOOK="$2"; STATE="$3"
-    [ "$GUEST" = "win11" ] || exit 0
-
-    bind_vfio() {
-      # Unbind from current driver (nvidia / snd_hda_intel) without unloading modules
-      [ -e /sys/bus/pci/devices/${gpuVideo}/driver ] && \
-        echo "${gpuVideo}" > /sys/bus/pci/devices/${gpuVideo}/driver/unbind
-      [ -e /sys/bus/pci/devices/${gpuAudio}/driver ] && \
-        echo "${gpuAudio}" > /sys/bus/pci/devices/${gpuAudio}/driver/unbind
-      # Steer both devices to vfio-pci via driver_override then bind
-      echo "vfio-pci" > /sys/bus/pci/devices/${gpuVideo}/driver_override
-      echo "vfio-pci" > /sys/bus/pci/devices/${gpuAudio}/driver_override
-      echo "${gpuVideo}" > /sys/bus/pci/drivers/vfio-pci/bind
-      echo "${gpuAudio}" > /sys/bus/pci/drivers/vfio-pci/bind
-    }
-
-    bind_nvidia() {
-      # Unbind from vfio-pci
-      [ -e /sys/bus/pci/devices/${gpuVideo}/driver ] && \
-        echo "${gpuVideo}" > /sys/bus/pci/drivers/vfio-pci/unbind
-      [ -e /sys/bus/pci/devices/${gpuAudio}/driver ] && \
-        echo "${gpuAudio}" > /sys/bus/pci/drivers/vfio-pci/unbind
-      # Clear override so each device returns to its native driver
-      echo "" > /sys/bus/pci/devices/${gpuVideo}/driver_override
-      echo "" > /sys/bus/pci/devices/${gpuAudio}/driver_override
-      # Explicitly re-bind (modules are still loaded — no modprobe needed)
-      echo "${gpuVideo}" > /sys/bus/pci/drivers/nvidia/bind
-      echo "${gpuAudio}" > /sys/bus/pci/drivers/snd_hda_intel/bind
-    }
-
-    if   [ "$HOOK" = "prepare" ] && [ "$STATE" = "begin" ]; then bind_vfio
-    elif [ "$HOOK" = "release" ] && [ "$STATE" = "end"   ]; then bind_nvidia
-    fi
+    exit 0
   '';
 in
 {
