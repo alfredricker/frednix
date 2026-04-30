@@ -80,6 +80,12 @@ in
         opacity = 0.95;
       }
       {
+        matches = [ { app-id = "^looking-glass-client$"; } ];
+        default-column-width = {
+          proportion = 0.9;
+        };
+      }
+      {
         matches = [
           { app-id = "^Slack$"; }
           { app-id = "^org\.gnome\.Nautilus$"; }
