@@ -93,6 +93,20 @@
         '';
       };
 
+      windows = {
+        description = "Start or stop the Windows VM";
+        body = ''
+          if contains -- --stop $argv
+            sudo virsh shutdown win11
+          else
+            sudo virsh net-start default
+            sudo virsh start win11
+            sleep 5
+            looking-glass-client
+          end
+        '';
+      };
+
     };
 
     shellAliases = {

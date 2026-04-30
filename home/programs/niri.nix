@@ -60,7 +60,7 @@ in
         # FEISHIN
         matches = [ { app-id = "(?i)feishin"; } ];
         default-column-width = {
-          proportion = 0.80;
+          proportion = 0.90;
         };
         opacity = 0.95;
       }
@@ -82,7 +82,7 @@ in
       {
         matches = [ { app-id = "^looking-glass-client$"; } ];
         default-column-width = {
-          proportion = 0.9;
+          proportion = 0.95;
         };
       }
       {
