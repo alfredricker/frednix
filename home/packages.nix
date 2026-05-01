@@ -87,6 +87,7 @@ in
     fastfetch
     gotop
     pulsemixer # pipewire/pulseaudio tui mixer
+    scream # receive audio from Windows VM
 
     # python
     poetry

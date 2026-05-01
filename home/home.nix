@@ -38,6 +38,16 @@ in
 
   programs.home-manager.enable = true;
 
+  systemd.user.services.scream = {
+    Unit.Description = "Scream audio receiver from Windows VM";
+    Unit.After = [ "pipewire.service" ];
+    Service = {
+      ExecStart = "${pkgs.scream}/bin/scream -i virbr0 -o pulse";
+      Restart = "always";
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+
   # Keep legacy gtk4 theme behavior (matches gtk3 theme set by stylix)
   gtk.gtk4.theme = config.gtk.theme;
 
