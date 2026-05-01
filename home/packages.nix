@@ -109,6 +109,9 @@ in
     # misc
     fzf
     theme-switch
+
+    # torrent
+    transmission_4-gtk
   ];
 
   programs.chromium = {
