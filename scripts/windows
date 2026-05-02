@@ -8,7 +8,7 @@ set PID_FILE /tmp/scream-receiver.pid
 
 function start_vm
     # Only bring up the default NAT network if it isn't already active
-    if not sudo virsh net-list --all | grep -qE 'default\s+active'
+    if not sudo virsh net-list --all | grep -qE 'default.*active'
         echo "Starting libvirt default network..."
         sudo virsh net-start default
     else
