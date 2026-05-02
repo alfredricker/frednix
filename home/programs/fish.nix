@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   programs.fish = {
@@ -98,8 +103,14 @@
         body = ''
           if contains -- --stop $argv
             sudo virsh shutdown win11
+            if test -f /tmp/scream-receiver.pid
+              kill (cat /tmp/scream-receiver.pid)
+              rm /tmp/scream-receiver.pid
+            end
           else
             sudo virsh net-start default
+            scream-receiver -o pulse -n "Windows VM" &
+            echo $last_pid > /tmp/scream-receiver.pid
             sudo virsh start win11
             sleep 5
             looking-glass-client
@@ -111,38 +122,38 @@
 
     shellAliases = {
       # Shell
-      c        = "clear";
-      q        = "exit";
-      temp     = "cd /tmp/";
+      c = "clear";
+      q = "exit";
+      temp = "cd /tmp/";
       # Nix
-      cleanup  = "sudo nix-collect-garbage --delete-older-than 1d";
-      listgen  = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
+      cleanup = "sudo nix-collect-garbage --delete-older-than 1d";
+      listgen = "sudo nix-env -p /nix/var/nix/profiles/system --list-generations";
       nixremove = "nix-store --gc";
-      bloat    = "nix path-info -Sh /run/current-system";
+      bloat = "nix path-info -Sh /run/current-system";
       cleanram = "sudo sh -c 'sync; echo 3 > /proc/sys/vm/drop_caches'";
-      trimall  = "sudo fstrim -va";
-      rebuild  = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
+      trimall = "sudo fstrim -va";
+      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
       # CLI replacements
-      ls       = "eza --icons";
-      l        = "eza -lF --time-style=long-iso --icons";
-      ll       = "eza -h --git --icons --color=auto --group-directories-first -s extension";
-      tree     = "eza --tree --icons";
-      cat      = "bat --paging=never";
-      find     = "fd";
-      grep     = "rg";
+      ls = "eza --icons";
+      l = "eza -lF --time-style=long-iso --icons";
+      ll = "eza -h --git --icons --color=auto --group-directories-first -s extension";
+      tree = "eza --tree --icons";
+      cat = "bat --paging=never";
+      find = "fd";
+      grep = "rg";
       # Git
-      add      = "git add .";
-      commit   = "git commit";
-      push     = "git push";
-      pull     = "git pull";
-      diff     = "git diff --staged";
-      gcld     = "git clone --depth 1";
+      add = "git add .";
+      commit = "git commit";
+      push = "git push";
+      pull = "git pull";
+      diff = "git diff --staged";
+      gcld = "git clone --depth 1";
       # Systemd
-      us       = "systemctl --user";
-      rs       = "sudo systemctl";
+      us = "systemctl --user";
+      rs = "sudo systemctl";
       # Fun
-      weather  = "curl -s wttr.in";
-      moon     = "curl -s wttr.in/Moon";
+      weather = "curl -s wttr.in";
+      moon = "curl -s wttr.in/Moon";
     };
   };
 

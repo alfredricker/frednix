@@ -1,4 +1,11 @@
-{ lib, stdenv, fetchFromGitHub, cmake, alsa-lib, pulseaudio }:
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  alsa-lib,
+  pulseaudio,
+}:
 
 stdenv.mkDerivation rec {
   pname = "scream-receiver";
@@ -8,13 +15,16 @@ stdenv.mkDerivation rec {
     owner = "duncanthrax";
     repo = "scream";
     rev = version;
-    hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    hash = "sha256-lP5mdNhZjkEVjgQUEsisPy+KXUqsE6xj6dFWcgD+VGM=";
   };
 
   sourceRoot = "${src.name}/Receivers/unix";
 
   nativeBuildInputs = [ cmake ];
-  buildInputs = [ alsa-lib pulseaudio.dev ];
+  buildInputs = [
+    alsa-lib
+    pulseaudio.dev
+  ];
 
   installPhase = ''
     runHook preInstall
