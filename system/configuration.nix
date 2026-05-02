@@ -158,6 +158,7 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
+    (callPackage ./packages/scream-receiver.nix { })
     wget
     kitty
     waybar
