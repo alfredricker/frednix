@@ -1,0 +1,58 @@
+#!/usr/bin/env fish
+
+# Manages the Windows 11 VM lifecycle:
+#   - Start: brings up the libvirt network, scream audio receiver, the VM, then looking-glass
+#   - Stop:  shuts down the VM and kills the scream receiver
+
+set PID_FILE /tmp/scream-receiver.pid
+
+function start_vm
+    # Only bring up the default NAT network if it isn't already active
+    if not sudo virsh net-list --all | grep -qE 'default\s+active'
+        echo "Starting libvirt default network..."
+        sudo virsh net-start default
+    else
+        echo "Libvirt default network already active."
+    end
+
+    # Launch scream audio receiver in the background so Linux can hear Windows audio.
+    # Saves the PID so stop_vm can cleanly kill it later.
+    echo "Starting scream audio receiver..."
+    scream-receiver -o pulse -n "Windows VM" &
+    echo $last_pid > $PID_FILE
+
+    # Boot the VM
+    echo "Starting Windows 11 VM..."
+    sudo virsh start win11
+
+    # Wait for the Looking Glass host app to come up inside Windows.
+    # 15s is usually enough after DHCP; increase if looking-glass fails to connect.
+    echo "Waiting for Windows to boot..."
+    sleep 15
+
+    # Open the Looking Glass client (captures the framebuffer shared via ivshmem)
+    echo "Launching Looking Glass..."
+    looking-glass-client
+end
+
+function stop_vm
+    echo "Shutting down Windows 11 VM..."
+    sudo virsh shutdown win11
+
+    # Kill the scream receiver we started earlier, if the PID file exists
+    if test -f $PID_FILE
+        echo "Stopping scream audio receiver (PID "(cat $PID_FILE)")..."
+        kill (cat $PID_FILE)
+        rm $PID_FILE
+    else
+        echo "No scream PID file found — receiver may have already exited."
+    end
+end
+
+# --- entry point ---
+
+if contains -- --stop $argv
+    stop_vm
+else
+    start_vm
+end

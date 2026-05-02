@@ -3,6 +3,7 @@
   stdenv,
   fetchFromGitHub,
   cmake,
+  pkg-config,
   alsa-lib,
   pulseaudio,
 }:
@@ -20,10 +21,10 @@ stdenv.mkDerivation rec {
 
   sourceRoot = "${src.name}/Receivers/unix";
 
-  nativeBuildInputs = [ cmake ];
+  nativeBuildInputs = [ cmake pkg-config ];
   buildInputs = [
     alsa-lib
-    pulseaudio.dev
+    pulseaudio
   ];
 
   installPhase = ''

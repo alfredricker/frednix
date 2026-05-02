@@ -38,6 +38,12 @@ in
 
   programs.home-manager.enable = true;
 
+  # Install scripts from the repo into ~/.local/bin
+  home.file.".local/bin/windows" = {
+    source = ../scripts/windows;
+    executable = true;
+  };
+
   systemd.user.services.scream = {
     Unit.Description = "Scream audio receiver from Windows VM";
     Unit.After = [ "pipewire.service" ];

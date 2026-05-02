@@ -28,6 +28,9 @@
       # Suppress greeting
       set -g fish_greeting
 
+      # User scripts
+      fish_add_path ~/.local/bin
+
       # C++ stdlib for Python native extensions (numpy, etc.) on NixOS
       set -gx LD_LIBRARY_PATH ${pkgs.stdenv.cc.cc.lib}/lib $LD_LIBRARY_PATH
 
@@ -98,27 +101,8 @@
         '';
       };
 
-      windows = {
-        description = "Start or stop the Windows VM";
-        body = ''
-          if contains -- --stop $argv
-            sudo virsh shutdown win11
-            if test -f /tmp/scream-receiver.pid
-              kill (cat /tmp/scream-receiver.pid)
-              rm /tmp/scream-receiver.pid
-            end
-          else
-            sudo virsh net-start default
-            scream-receiver -o pulse -n "Windows VM" &
-            echo $last_pid > /tmp/scream-receiver.pid
-            sudo virsh start win11
-            sleep 5
-            looking-glass-client
-          end
-        '';
-      };
 
-    };
+};
 
     shellAliases = {
       # Shell
