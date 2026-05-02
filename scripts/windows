@@ -21,18 +21,12 @@ function start_vm
     echo "Starting Windows 11 VM..."
     sudo virsh start win11
 
-    # Wait for QEMU to create the ivshmem shared memory file
-    echo "Waiting for ivshmem device..."
-    while not test -e /dev/shm/scream-ivshmem
-        sleep 1
-    end
-
     # Start scream in the background. Skip if already running.
     if pgrep -x scream-receiver >/dev/null
         echo "Scream receiver already running, skipping."
     else
         echo "Starting scream audio receiver..."
-        scream-receiver -m /dev/shm/scream-ivshmem -o pulse -n "Windows VM" &
+        scream-receiver -i virbr0 -o pulse -n "Windows VM" &
         echo $last_pid >$PID_FILE
     end
 
