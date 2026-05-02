@@ -1,8 +1,10 @@
 #!/usr/bin/env fish
 
 # Manages the Windows 11 VM lifecycle:
-#   - Start: brings up the libvirt network, scream audio receiver, the VM, then looking-glass
-#   - Stop:  shuts down the VM and kills the scream receiver
+#   - Start: brings up the libvirt network, boots the VM, starts scream and
+#            looking-glass together. Scream is killed automatically when
+#            looking-glass closes.
+#   - Stop:  shuts down the VM and kills any leftover scream receiver.
 
 set PID_FILE /tmp/scream-receiver.pid
 
@@ -15,41 +17,55 @@ function start_vm
         echo "Libvirt default network already active."
     end
 
-    # Launch scream audio receiver in the background so Linux can hear Windows audio.
-    # Skip if already running to avoid duplicate instances piling up.
-    if pgrep -x scream-receiver > /dev/null
+    # Boot the VM first — QEMU creates /dev/shm/scream-ivshmem on start
+    echo "Starting Windows 11 VM..."
+    sudo virsh start win11
+
+    # Wait for QEMU to create the ivshmem shared memory file
+    echo "Waiting for ivshmem device..."
+    while not test -e /dev/shm/scream-ivshmem
+        sleep 1
+    end
+
+    # Start scream in the background. Skip if already running.
+    if pgrep -x scream-receiver >/dev/null
         echo "Scream receiver already running, skipping."
     else
         echo "Starting scream audio receiver..."
         scream-receiver -m /dev/shm/scream-ivshmem -o pulse -n "Windows VM" &
-        echo $last_pid > $PID_FILE
+        echo $last_pid >$PID_FILE
     end
 
-    # Boot the VM
-    echo "Starting Windows 11 VM..."
-    sudo virsh start win11
-
-    # Wait for the Looking Glass host app to come up inside Windows.
-    # 15s is usually enough after DHCP; increase if looking-glass fails to connect.
+    # Wait for the Looking Glass host to come up inside Windows before connecting.
+    # Increase this if looking-glass fails to connect on first try.
     echo "Waiting for Windows to boot..."
     sleep 15
 
-    # Open the Looking Glass client (captures the framebuffer shared via ivshmem)
+    # Run looking-glass in the foreground. When the window is closed, we
+    # automatically kill scream so it doesn't linger as an orphan process.
     echo "Launching Looking Glass..."
     looking-glass-client
+
+    # looking-glass exited — tear down scream
+    echo "Looking Glass closed. Stopping scream audio receiver..."
+    if test -f $PID_FILE
+        kill (cat $PID_FILE) 2>/dev/null
+        rm $PID_FILE
+    end
+    pkill -x scream-receiver 2>/dev/null
 end
 
 function stop_vm
     echo "Shutting down Windows 11 VM..."
     sudo virsh shutdown win11
 
-    # Kill by PID file first, then pkill as fallback to catch any orphaned instances
+    # Kill scream by PID file, with pkill as fallback for orphaned instances
     if test -f $PID_FILE
         echo "Stopping scream audio receiver (PID "(cat $PID_FILE)")..."
         kill (cat $PID_FILE) 2>/dev/null
         rm $PID_FILE
     end
-    if pgrep -x scream-receiver > /dev/null
+    if pgrep -x scream-receiver >/dev/null
         echo "Killing orphaned scream-receiver instances..."
         pkill -x scream-receiver
     end
