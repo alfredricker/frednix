@@ -16,10 +16,14 @@ function start_vm
     end
 
     # Launch scream audio receiver in the background so Linux can hear Windows audio.
-    # Saves the PID so stop_vm can cleanly kill it later.
-    echo "Starting scream audio receiver..."
-    scream-receiver -o pulse -n "Windows VM" &
-    echo $last_pid > $PID_FILE
+    # Skip if already running to avoid duplicate instances piling up.
+    if pgrep -x scream-receiver > /dev/null
+        echo "Scream receiver already running, skipping."
+    else
+        echo "Starting scream audio receiver..."
+        scream-receiver -m /dev/shm/scream-ivshmem -o pulse -n "Windows VM" &
+        echo $last_pid > $PID_FILE
+    end
 
     # Boot the VM
     echo "Starting Windows 11 VM..."
@@ -39,13 +43,15 @@ function stop_vm
     echo "Shutting down Windows 11 VM..."
     sudo virsh shutdown win11
 
-    # Kill the scream receiver we started earlier, if the PID file exists
+    # Kill by PID file first, then pkill as fallback to catch any orphaned instances
     if test -f $PID_FILE
         echo "Stopping scream audio receiver (PID "(cat $PID_FILE)")..."
-        kill (cat $PID_FILE)
+        kill (cat $PID_FILE) 2>/dev/null
         rm $PID_FILE
-    else
-        echo "No scream PID file found — receiver may have already exited."
+    end
+    if pgrep -x scream-receiver > /dev/null
+        echo "Killing orphaned scream-receiver instances..."
+        pkill -x scream-receiver
     end
 end
 
