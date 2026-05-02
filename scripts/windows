@@ -6,7 +6,7 @@
 #            looking-glass closes.
 #   - Stop:  shuts down the VM and kills any leftover scream receiver.
 
-set PID_FILE /tmp/scream-receiver.pid
+set PID_FILE /tmp/scream.pid
 
 function start_vm
     # Only bring up the default NAT network if it isn't already active
@@ -22,11 +22,11 @@ function start_vm
     sudo virsh start win11
 
     # Start scream in the background. Skip if already running.
-    if pgrep -x scream-receiver >/dev/null
+    if pgrep -x scream >/dev/null
         echo "Scream receiver already running, skipping."
     else
         echo "Starting scream audio receiver..."
-        scream-receiver -i virbr0 -o pulse -n "Windows VM" &
+        scream -i virbr0 -o pulse &
         echo $last_pid >$PID_FILE
     end
 
@@ -46,7 +46,7 @@ function start_vm
         kill (cat $PID_FILE) 2>/dev/null
         rm $PID_FILE
     end
-    pkill -x scream-receiver 2>/dev/null
+    pkill -x scream 2>/dev/null
 end
 
 function stop_vm
@@ -59,9 +59,9 @@ function stop_vm
         kill (cat $PID_FILE) 2>/dev/null
         rm $PID_FILE
     end
-    if pgrep -x scream-receiver >/dev/null
-        echo "Killing orphaned scream-receiver instances..."
-        pkill -x scream-receiver
+    if pgrep -x scream >/dev/null
+        echo "Killing orphaned scream instances..."
+        pkill -x scream
     end
 end
 

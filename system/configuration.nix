@@ -118,6 +118,7 @@
   networking.networkmanager.enable = true;
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  networking.firewall.interfaces."virbr0".allowedUDPPorts = [ 4010 ];
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -158,8 +159,9 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    (callPackage ./packages/scream-receiver.nix { })
+    scream
     wget
+    tcpdump
     kitty
     waybar
     mako
