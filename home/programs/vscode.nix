@@ -30,6 +30,8 @@ in
       # GitHub Copilot
       github.copilot
       github.copilot-chat
+      # playwright testing
+      vijaynirmal.playwright-mcp-relay
 
       # Nix
       jnoortheen.nix-ide
