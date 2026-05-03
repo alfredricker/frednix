@@ -190,10 +190,6 @@
     <video>
       <model type='none'/>
     </video>
-    <sound model='ich9'>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x1b' function='0x0'/>
-    </sound>
-    <audio id='1' type='spice'/>
     <!-- RTX 5070 Ti passthrough — video and HDMI audio -->
     <hostdev mode='subsystem' type='pci' managed='yes'>
       <source>
