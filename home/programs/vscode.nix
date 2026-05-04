@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   shadesOfPurple = pkgs.vscode-utils.extensionFromVscodeMarketplace {
@@ -6,6 +6,13 @@ let
     publisher = "ahmadawais";
     version = "7.3.6";
     sha256 = "11bxs2hgf2mmlvi1zkz77yxwl0imjfax9fgqc1w0imdhcz074rnv";
+  };
+
+  playwrightMcpRelay = pkgs.vscode-utils.extensionFromVscodeMarketplace {
+    name = "playwright-mcp-relay";
+    publisher = "vijaynirmal";
+    version = "1.0.0";
+    sha256 = "sha256-CB3RFKm/3EIQ2ObCg+lllOi9EM+LCc75s2+EFcHOpEQ=";
   };
 in
 {
@@ -31,7 +38,7 @@ in
       github.copilot
       github.copilot-chat
       # playwright testing
-      vijaynirmal.playwright-mcp-relay
+      playwrightMcpRelay
 
       # Nix
       jnoortheen.nix-ide

@@ -43,6 +43,7 @@ in
     tor-browser
     # music
     jellyfin # media server
+    tinymediamanager # metadata editor
     feishin # music player
     nicotine-plus # p2p files
     puddletag # edit music metadata
