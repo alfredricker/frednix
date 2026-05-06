@@ -9,9 +9,11 @@
 set PID_FILE /tmp/scream.pid
 
 function start_vm
-    # Only bring up the default NAT network if it isn't already active
-    if not sudo virsh net-list --all | grep -qE 'default.*active'
-        echo "Starting libvirt default network..."
+    # Bring up the default NAT network. Check that virbr0 actually exists as
+    # an interface — virsh can report "active" while the bridge is gone (e.g.
+    # after a suspend/resume), which causes virsh start to fail at boot time.
+    if not ip link show virbr0 >/dev/null 2>&1
+        echo "virbr0 missing; restarting libvirt default network..."
         sudo virsh net-start default
     else
         echo "Libvirt default network already active."
@@ -20,6 +22,14 @@ function start_vm
     # Boot the VM first — QEMU creates /dev/shm/scream-ivshmem on start
     echo "Starting Windows 11 VM..."
     sudo virsh start win11
+
+    # Wait for virbr0 to be fully bridged before binding scream to it.
+    for i in (seq 10)
+        if ip link show virbr0 2>/dev/null | grep -q 'state UP'
+            break
+        end
+        sleep 1
+    end
 
     # Start scream in the background. Skip if already running.
     if pgrep -x scream >/dev/null
@@ -33,7 +43,7 @@ function start_vm
     # Wait for the Looking Glass host to come up inside Windows before connecting.
     # Increase this if looking-glass fails to connect on first try.
     echo "Waiting for Windows to boot..."
-    sleep 15
+    sleep 5
 
     # Run looking-glass in the foreground. When the window is closed, we
     # automatically kill scream so it doesn't linger as an orphan process.

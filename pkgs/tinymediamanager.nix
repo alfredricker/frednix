@@ -17,11 +17,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "tinyMediaManager";
-  version = "5.1.4";
+  version = "5.2.11";
 
   src = fetchurl {
     url = "https://release.tinymediamanager.org/v5/dist/${pname}-${version}-linux-amd64.tar.xz";
-    hash = "sha256-3DlAC9KXSkDSsA9Lpf1jXl+GZL3+MowefvfDV6pgfbY=";
+    hash = "sha256-9EMKR0adbNBsVqY7pxkVuqqEEKQJzMVVIWVWN4cDAMA=";
     postFetch = ''
       cp $out src.xz
       ${xz}/bin/unxz src.xz --stdout > $out

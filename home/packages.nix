@@ -32,6 +32,7 @@ in
 {
   home.packages = with pkgs; [
     # APPS
+    obs-studio
     discord-canary
     monero-gui # cryptocurrency
     obsidian # markdown notes
