@@ -34,13 +34,10 @@
           specialArgs = { inherit inputs; };
           modules = [
             {
-            nixpkgs.overlays = [
-              inputs.claude-code.overlays.default
-              (final: prev: {
-                tinymediamanager = final.callPackage ./pkgs/tinymediamanager.nix { };
-              })
-            ];
-          }
+              nixpkgs.overlays = [
+                inputs.claude-code.overlays.default
+              ];
+            }
             ./system/configuration.nix
             nix-index-database.nixosModules.nix-index
 

@@ -44,7 +44,7 @@ in
     tor-browser
     # music
     jellyfin # media server
-    tinymediamanager # metadata editor
+    mediaelch # metadata editor
     feishin # music player
     nicotine-plus # p2p files
     puddletag # edit music metadata
@@ -52,6 +52,10 @@ in
     carla # plugin host; bridges LV2 plugins into Bitwig as VST
     crosspipe # PipeWire patchbay for routing audio/MIDI
     audacity # audio editing and sampling
+
+    # media sync for servers
+    rsync
+    cloudflared # cloudflare daemon for managing domains
 
     # file manager
     nautilus

@@ -9,16 +9,6 @@
 set PID_FILE /tmp/scream.pid
 
 function start_vm
-    # Bring up the default NAT network. Check that virbr0 actually exists as
-    # an interface — virsh can report "active" while the bridge is gone (e.g.
-    # after a suspend/resume), which causes virsh start to fail at boot time.
-    if not ip link show virbr0 >/dev/null 2>&1
-        echo "virbr0 missing; restarting libvirt default network..."
-        sudo virsh net-start default
-    else
-        echo "Libvirt default network already active."
-    end
-
     # Boot the VM first — QEMU creates /dev/shm/scream-ivshmem on start
     echo "Starting Windows 11 VM..."
     sudo virsh start win11

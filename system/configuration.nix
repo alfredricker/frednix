@@ -48,6 +48,9 @@
   # --- NIXPKGS ---
   nixpkgs.config.allowUnfree = true;
   # nixpkgs.config.cudaSupport = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "openssl-1.1.1w"
+  ];
 
   # --- NIX INDEX (command-not-found replacement) ---
   programs.nix-index-database.comma.enable = true;
@@ -73,6 +76,10 @@
         layout = "us";
         variant = "";
       };
+    };
+    # TAILSCALE SERVER
+    tailscale = {
+      enable = true;
     };
     # AUDIO
     pipewire = {
