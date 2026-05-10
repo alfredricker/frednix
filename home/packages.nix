@@ -116,6 +116,7 @@ in
     # misc
     fzf
     theme-switch
+    arp-scan
 
     # torrent
     transmission_4-gtk

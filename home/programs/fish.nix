@@ -101,8 +101,14 @@
         '';
       };
 
-
-};
+      # Wrap ssh to avoid "unknown terminal type" on servers without ghostty terminfo
+      ssh = {
+        description = "SSH with xterm-256color to avoid missing ghostty terminfo on remote hosts";
+        body = ''
+          TERM=xterm-256color command ssh $argv
+        '';
+      };
+    };
 
     shellAliases = {
       # Shell
