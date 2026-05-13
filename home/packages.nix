@@ -55,6 +55,7 @@ in
 
     # media sync for servers
     rsync
+    agenix # for writing secrets
     cloudflared # cloudflare daemon for managing domains
 
     # file manager
