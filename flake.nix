@@ -15,8 +15,6 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     claude-code.url = "github:sadjow/claude-code-nix";
-    agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -27,7 +25,6 @@
       stylix,
       niri-flake,
       nix-index-database,
-      agenix,
       ...
     }@inputs:
     {
@@ -42,7 +39,6 @@
               ];
             }
             ./system/configuration.nix
-            agenix.nixosModules.default
             nix-index-database.nixosModules.nix-index
 
             # HOME MANAGER
