@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
   nixpoetry = pkgs.writeShellScriptBin "nixpoetry" ''
@@ -55,7 +55,7 @@ in
 
     # media sync for servers
     rsync
-    agenix # for writing secrets
+    inputs.agenix.packages.${pkgs.system}.default # agenix CLI for managing secrets
     cloudflared # cloudflare daemon for managing domains
 
     # file manager
