@@ -56,6 +56,7 @@ in
     # media sync for servers
     rsync
     cloudflared # cloudflare daemon for managing domains
+    flirc
 
     # file manager
     nautilus
@@ -77,6 +78,7 @@ in
     bat
     eza
     fd
+    xcp # fast copy
     ffmpeg
     ripgrep
     delta

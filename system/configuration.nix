@@ -18,6 +18,7 @@
     ./programs.nix
     ./programs/steam.nix
     ./virt/virt.nix
+    ./gpu-switch.nix
     inputs.musnix.nixosModules.musnix
   ];
 
@@ -180,6 +181,7 @@
     xdg-utils
     pciutils
     usbutils
+    mpv # video player
   ];
 
   # Copy the NixOS configuration file and link it from the resulting system
