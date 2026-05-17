@@ -57,8 +57,8 @@ let
       modprobe -r nvidia        2>/dev/null || true
 
       echo "Resetting driver overrides..."
-      printf '' > /sys/bus/pci/devices/$GPU_VIDEO/driver_override
-      printf '' > /sys/bus/pci/devices/$GPU_AUDIO/driver_override 2>/dev/null || true
+      echo "" > /sys/bus/pci/devices/$GPU_VIDEO/driver_override
+      echo "" > /sys/bus/pci/devices/$GPU_AUDIO/driver_override 2>/dev/null || true
 
       echo "Binding back to vfio-pci..."
       echo "$GPU_VIDEO" > /sys/bus/pci/drivers/vfio-pci/bind
