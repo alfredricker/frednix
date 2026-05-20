@@ -44,6 +44,11 @@ in
     executable = true;
   };
 
+  home.file.".local/bin/compress" = {
+    source = ../scripts/compress;
+    executable = true;
+  };
+
 
   # Keep legacy gtk4 theme behavior (matches gtk3 theme set by stylix)
   gtk.gtk4.theme = config.gtk.theme;

@@ -1,0 +1,95 @@
+#!/usr/bin/env fish
+
+# Re-encodes all .mp4, .avi, and .mkv files in a directory to x265/HEVC mp4.
+# Originals are renamed to <name>-original.<ext> before encoding.
+
+set -l crf 23
+set -l dir ""
+
+set -l i 1
+while test $i -le (count $argv)
+    switch $argv[$i]
+        case --scale
+            set i (math $i + 1)
+            if test $i -gt (count $argv)
+                echo "compress: --scale requires a CRF value (e.g. --scale 28)" >&2
+                exit 1
+            end
+            set crf $argv[$i]
+        case --help -h
+            echo "Usage: compress [--scale CRF] <directory>"
+            echo ""
+            echo "Re-encodes all .mp4, .avi, and .mkv files in <directory> to x265/HEVC."
+            echo "Each original is renamed to <name>-original.<ext> before encoding."
+            echo ""
+            echo "Options:"
+            echo "  --scale CRF   CRF quality value (default: 23)"
+            echo "                Lower = better quality, larger file (sane range: 18-28)"
+            exit 0
+        case '*'
+            set dir $argv[$i]
+    end
+    set i (math $i + 1)
+end
+
+if test -z "$dir"
+    echo "compress: directory required" >&2
+    echo "Usage: compress [--scale CRF] <directory>" >&2
+    exit 1
+end
+
+if not test -d "$dir"
+    echo "compress: '$dir' is not a directory" >&2
+    exit 1
+end
+
+set -l files (find "$dir" -maxdepth 1 \( -iname "*.mp4" -o -iname "*.avi" -o -iname "*.mkv" \) ! -iname "*-original.*" | sort)
+
+if test (count $files) -eq 0
+    echo "compress: no video files found in '$dir'" >&2
+    exit 1
+end
+
+# Detect GPU: nvidia-smi must report an active GPU and ffmpeg must have hevc_nvenc
+set -l use_gpu 0
+if command -q nvidia-smi
+    and nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | grep -q .
+    and ffmpeg -hide_banner -encoders 2>/dev/null | grep -q hevc_nvenc
+    set use_gpu 1
+end
+
+if test $use_gpu -eq 1
+    echo "compress: found "(count $files)" file(s) — CRF $crf — encoder: hevc_nvenc (GPU)"
+else
+    echo "compress: found "(count $files)" file(s) — CRF $crf — encoder: libx265 (CPU)"
+end
+echo ""
+
+for file in $files
+    set -l ext (string lower (string replace -r '.*\.' '' "$file"))
+    set -l base (string replace -r '\.[^.]+$' '' "$file")
+    set -l original "$base-original.$ext"
+    set -l output "$base.mp4"
+
+    if test -f "$original"
+        echo "==> SKIP '$file': '$original' already exists" >&2
+        continue
+    end
+
+    echo "==> $file"
+    mv -- "$file" "$original"
+
+    if test $use_gpu -eq 1
+        ffmpeg -i "$original" -c:v hevc_nvenc -rc vbr -cq $crf -preset p4 -c:a copy "$output"
+    else
+        ffmpeg -i "$original" -c:v libx265 -crf $crf -preset medium -c:a copy "$output"
+    end
+
+    if test $status -eq 0
+        echo "    done -> $output"
+    else
+        echo "    ERROR: ffmpeg failed, restoring original name" >&2
+        mv -- "$original" "$file"
+    end
+    echo ""
+end
