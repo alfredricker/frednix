@@ -84,11 +84,13 @@ for file in $files
     else
         ffmpeg -i "$original" -c:v libx265 -crf $crf -preset medium -c:a copy "$output"
     end
+    set -l ffmpeg_status $status
 
-    if test $status -eq 0
+    if test $ffmpeg_status -eq 0
         echo "    done -> $output"
     else
-        echo "    ERROR: ffmpeg failed, restoring original name" >&2
+        echo "    ERROR: ffmpeg failed, cleaning up and restoring original name" >&2
+        rm -f -- "$output"
         mv -- "$original" "$file"
     end
     echo ""
