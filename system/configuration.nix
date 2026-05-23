@@ -99,6 +99,10 @@
     mullvad-vpn.enable = true;
   };
 
+  # Don't autostart mullvad-daemon at boot; it's started on-demand by the
+  # `mullvad` fish wrapper (which also stops tailscaled to avoid routing conflicts).
+  systemd.services.mullvad-daemon.wantedBy = lib.mkForce [ ];
+
   # --- HARDWARE SETTINGS ---
   hardware.enableRedistributableFirmware = true;
   # Enable OpenGL + Vulkan

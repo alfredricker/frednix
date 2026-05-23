@@ -9,7 +9,9 @@
       "Bash(nix-prefetch-github cwebster2:*)",
       "Bash(nix store:*)",
       "Read(//sys/devices/pci0000:00/0000:00:02.1/0000:03:00.0/0000:04:06.0/0000:08:00.0/net/wlp8s0/**)",
-      "Bash(iw dev *)"
+      "Bash(iw dev *)",
+      "Bash(ip rule *)",
+      "Bash(ip route *)"
     ]
   }
 }

@@ -108,6 +108,28 @@
           TERM=xterm-256color command ssh $argv
         '';
       };
+
+      # Coordinate mullvad with tailscaled (they fight over ip rules on Linux).
+      # `mullvad connect`    → stop tailscaled, start mullvad-daemon, connect
+      # `mullvad disconnect` → disconnect, stop mullvad-daemon, restart tailscaled
+      # All other subcommands pass through unchanged.
+      mullvad = {
+        description = "mullvad wrapper that coordinates with tailscaled";
+        body = ''
+          switch "$argv[1]"
+            case connect
+              sudo systemctl stop tailscaled
+              sudo systemctl start mullvad-daemon
+              command mullvad connect $argv[2..]
+            case disconnect
+              command mullvad disconnect $argv[2..]
+              sudo systemctl stop mullvad-daemon
+              sudo systemctl start tailscaled
+            case '*'
+              command mullvad $argv
+          end
+        '';
+      };
     };
 
     shellAliases = {
