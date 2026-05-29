@@ -102,6 +102,7 @@ in
     gnumake
     tree-sitter
     rustup
+    go
     trash-cli
 
     # work (bb) tools
