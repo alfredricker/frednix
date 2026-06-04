@@ -103,6 +103,7 @@ in
     tree-sitter
     rustup
     go
+    wails
     trash-cli
 
     # work (bb) tools
