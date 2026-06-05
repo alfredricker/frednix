@@ -19,6 +19,7 @@
     ./programs/steam.nix
     ./virt/virt.nix
     ./gpu-switch.nix
+    ./tailscale-work.nix
     inputs.musnix.nixosModules.musnix
   ];
 
