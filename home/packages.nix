@@ -30,6 +30,8 @@ in
     monero-gui # cryptocurrency
     obsidian # markdown notes
     slack
+    bitwarden # password manager
+    signal-desktop # messenger
     # claude
     claude-code
     poppler-utils # allows claude to read pdf files
@@ -122,6 +124,7 @@ in
     enable = true;
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # uBlock Origin
+      { id = "nngceckbapebfimnlniiiahkandclblb"; } # Bitwarden
     ];
   };
 

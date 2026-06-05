@@ -50,9 +50,6 @@ in
   };
 
 
-  # Keep legacy gtk4 theme behavior (matches gtk3 theme set by stylix)
-  gtk.gtk4.theme = config.gtk.theme;
-
   stylix = {
     enable = true;
     image = theme.wallpaper;
