@@ -30,7 +30,7 @@ in
     monero-gui # cryptocurrency
     obsidian # markdown notes
     slack
-    bitwarden # password manager
+    bitwarden-desktop # password manager
     signal-desktop # messenger
     # claude
     claude-code
