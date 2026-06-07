@@ -19,6 +19,7 @@
     ./programs/steam.nix
     ./virt/virt.nix
     ./gpu-switch.nix
+    ./looking-glass.nix
     inputs.musnix.nixosModules.musnix
   ];
 
@@ -81,6 +82,7 @@
     # TAILSCALE SERVER
     tailscale = {
       enable = true;
+      extraSetFlags = [ "--operator=fred" ];
     };
     # AUDIO
     pipewire = {

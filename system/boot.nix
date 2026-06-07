@@ -25,16 +25,16 @@
     initrd = {
       verbose = false;
       systemd.enable = true;
-      kernelModules = [ "amdgpu" "vfio" "vfio_iommu_type1" "vfio_pci" ];
+      # iGPU is available in both boot modes. vfio modules + the RTX→vfio binding
+      # live in the `looking-glass` specialisation (see system/looking-glass.nix),
+      # so by default nvidia claims the RTX and drives the display.
+      kernelModules = [ "amdgpu" ];
     };
     kernelModules = [ "kvm-amd" ];
-    # Claim the RTX at boot before nvidia can touch it
-    extraModprobeConfig = ''
-      options vfio-pci ids=10de:2c05,10de:22e9
-    '';
     kernelParams = [
       "quiet" "udev.log_level=3" "systemd.show_status=auto"
       "boot.shell_on_fail"
+      # Keep IOMMU on so the looking-glass specialisation can pass the RTX through.
       "amd_iommu=on" "iommu=pt"
     ];
   };
