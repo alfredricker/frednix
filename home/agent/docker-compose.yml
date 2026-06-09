@@ -1,0 +1,31 @@
+services:
+  hermes:
+  # Runs the Hermes agent container with specified configurations
+    # Do NOT set `user:` — the image must start as root and remaps the
+    # internal hermes user to HERMES_UID/HERMES_GID at boot, chowning the
+    # data volume so files land owned by your host user.
+    image: nousresearch/hermes-agent
+    command: gateway run
+    container_name: hermes_agent
+    restart: unless-stopped
+    environment:
+      # Enables the web dashboard/UI
+      - HERMES_DASHBOARD=1
+      - HERMES_YOLO_MODE=1
+      - HERMES_DASHBOARD_HOST=0.0.0.0
+      - HERMES_DASHBOARD_BASIC_AUTH_USERNAME=bb
+      # Match files written in the volumes to your host user
+      - HERMES_UID=1000
+      - HERMES_GID=1000
+    ports:
+      # Maps host port 8642 to container port 8642
+      - "127.0.0.1:8642:8642"
+      - "127.0.0.1:9119:9119"
+    volumes:
+      # Persistent agent config + memory — always mounted, regardless of which
+      # directory you launch in. ${HOME} is substituted by the hermes CLI.
+      - ${HOME}/.hermes:/opt/data
+      # Working directory: injected by the `hermes` CLI as the dir you launch in.
+      # The :? guard makes a bare `docker compose` fail loudly instead of
+      # mounting an empty/unexpected path — always launch via `hermes`.
+      - ${HERMES_WORKSPACE:?run via the hermes CLI}:/workspace

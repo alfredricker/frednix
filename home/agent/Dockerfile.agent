@@ -1,0 +1,16 @@
+FROM nousresearch/hermes-agent
+
+USER root
+
+# Go 1.23 toolchain
+RUN curl -fsSL https://go.dev/dl/go1.23.4.linux-amd64.tar.gz \
+    | tar -C /usr/local -xz
+ENV PATH=/usr/local/go/bin:/go/bin:$PATH \
+    GOPATH=/go \
+    GOMODCACHE=/cache/go-mod \
+    GOCACHE=/cache/go-build
+
+# Node 22 (for the Vite/React frontend)
+RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz \
+    | tar -xJ -C /usr/local --strip-components=1 \
+    --exclude='*/CHANGELOG.md' --exclude='*/README.md' --exclude='*/LICENSE'
