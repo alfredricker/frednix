@@ -75,6 +75,16 @@ cmd_start() {
   info "Dashboard: $DASHBOARD_URL"
 }
 
+cmd_shell() {
+  is_running || die "Hermes is not running (start it with 'hermes')"
+  if [ $# -gt 0 ]; then
+    docker exec -it "$CONTAINER" "$@"
+  else
+    # Prefer bash; fall back to sh if the image lacks it.
+    docker exec -it "$CONTAINER" bash 2>/dev/null || docker exec -it "$CONTAINER" sh
+  fi
+}
+
 cmd_stop() {
   HERMES_WORKSPACE="$(cat "$CURRENT" 2>/dev/null || echo "$PWD")" compose down
   rm -f "$CURRENT"
@@ -88,6 +98,7 @@ hermes — run the sandboxed Hermes agent against the current directory
   hermes [start]     mount \$PWD as /workspace and start the agent
                      (confirms the first time a directory is used)
   hermes stop        stop and remove the container
+  hermes shell [cmd] open a shell in the container (or run cmd inside it)
   hermes status      show container status and active workspace
   hermes logs [-f]   show logs (use -f to follow)
   hermes dashboard   open the web dashboard ($DASHBOARD_URL)
@@ -117,6 +128,7 @@ cmd="${1:-start}"
 case "$cmd" in
   start|"")  cmd_start ;;
   stop)      cmd_stop ;;
+  shell|sh|exec) cmd_shell "$@" ;;
   status|ps) compose ps; [ -f "$CURRENT" ] && info "Workspace: $(cat "$CURRENT")" ;;
   logs)      compose logs "$@" ;;
   dashboard) info "Opening $DASHBOARD_URL"; xdg-open "$DASHBOARD_URL" >/dev/null 2>&1 & ;;
