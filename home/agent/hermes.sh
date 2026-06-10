@@ -11,7 +11,7 @@ KNOWN_DIRS="$STATE_DIR/known-dirs"   # directories already confirmed
 CURRENT="$STATE_DIR/current"         # workspace of the running container
 PROJECT="hermes"
 CONTAINER="hermes_agent"
-DASHBOARD_URL="http://127.0.0.1:8642"
+DASHBOARD_URL="http://127.0.0.1:9119"
 
 ASSUME_YES=0
 

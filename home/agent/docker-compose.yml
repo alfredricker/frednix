@@ -13,7 +13,11 @@ services:
       - HERMES_DASHBOARD=1
       - HERMES_YOLO_MODE=1
       - HERMES_DASHBOARD_HOST=0.0.0.0
-      - HERMES_DASHBOARD_BASIC_AUTH_USERNAME=bb
+      # Skip the dashboard's OAuth auth gate. Required because we bind to
+      # 0.0.0.0 (so Docker's published port can reach it) with no OAuth
+      # provider registered. Safe here: the port is published to host
+      # loopback only (127.0.0.1:9119 below), so it's not network-exposed.
+      - HERMES_DASHBOARD_INSECURE=1
       # Match files written in the volumes to your host user
       - HERMES_UID=1000
       - HERMES_GID=1000
