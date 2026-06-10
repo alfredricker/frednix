@@ -33,3 +33,5 @@ services:
       # The :? guard makes a bare `docker compose` fail loudly instead of
       # mounting an empty/unexpected path — always launch via `hermes`.
       - ${HERMES_WORKSPACE:?run via the hermes CLI}:/workspace
+      # application mounts -- this could be better coded elsewhere
+      - /home/fred/Projects/trading/apps:/apps:ro
