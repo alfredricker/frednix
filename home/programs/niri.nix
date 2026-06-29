@@ -57,6 +57,13 @@ in
         opacity = 0.93;
       }
       {
+        matches = [ { app-id = "^discord"; } ];
+        default-column-width = {
+          proportion = 0.6;
+        };
+        opacity = 0.95;
+      }
+      {
         # FEISHIN
         matches = [ { app-id = "(?i)feishin"; } ];
         default-column-width = {
@@ -73,7 +80,10 @@ in
         opacity = 0.95;
       }
       {
-        matches = [ { app-id = "^code$"; } ];
+        matches = [
+          { app-id = "^code$"; }
+          { app-id = "^nicotine$"; }
+        ];
         default-column-width = {
           proportion = 0.9;
         };
@@ -112,6 +122,7 @@ in
       "Mod+T".action = spawn "ghostty" "-e" "gotop";
       "Mod+C".action = spawn "vscode";
       "Mod+F".action = spawn "nautilus";
+      "Mod+D".action = spawn "discordcanary";
 
       "Mod+W".action = close-window;
       "Mod+Shift+X".action = spawn "makoctl" "dismiss" "--all";
@@ -140,10 +151,9 @@ in
       "Mod+1".action = focus-workspace 1;
       "Mod+2".action = focus-workspace 2;
       "Mod+3".action = focus-workspace 3;
-      # Move focused window to workspace
-      "Mod+Shift+1".action = move-window-to-workspace 1;
-      "Mod+Shift+2".action = move-window-to-workspace 2;
-      "Mod+Shift+3".action = move-window-to-workspace 3;
+      # Move focused window to adjacent workspace
+      "Mod+Shift+Down".action = move-window-to-workspace-down;
+      "Mod+Shift+Up".action = move-window-to-workspace-up;
     };
   };
 }
