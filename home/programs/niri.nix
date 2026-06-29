@@ -140,6 +140,10 @@ in
       "Mod+1".action = focus-workspace 1;
       "Mod+2".action = focus-workspace 2;
       "Mod+3".action = focus-workspace 3;
+      # Move focused window to workspace
+      "Mod+Shift+1".action = move-window-to-workspace 1;
+      "Mod+Shift+2".action = move-window-to-workspace 2;
+      "Mod+Shift+3".action = move-window-to-workspace 3;
     };
   };
 }
