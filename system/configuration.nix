@@ -194,6 +194,11 @@
     mpv # video player
   ];
 
+  environment.variables = {
+    # torch's extension builder finds nvcc/headers through this
+    CUDA_HOME = "${pkgs.cudaPackages_13.cudatoolkit}";
+  };
+
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
