@@ -126,6 +126,7 @@ in
 
       "Mod+W".action = close-window;
       "Mod+Shift+X".action = spawn "makoctl" "dismiss" "--all";
+      "Mod+Shift+4".action = spawn "screenshot";
       "Mod+Shift+W".action = spawn "waypaper";
       "Mod+Shift+Space".action = spawn "sh" "-c" "pkill waybar || waybar";
       "Mod+Space".action = spawn "rofi" "-show" "drun";

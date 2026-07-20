@@ -21,6 +21,17 @@ let
         echo "Switching to $choice, rebuilding..."
         sudo nixos-rebuild switch --flake /etc/nixos#nixos
   '';
+
+  screenshot = pkgs.writeShellScriptBin "screenshot" ''
+    dir="$HOME/Media/Pictures/screenshots"
+    mkdir -p "$dir"
+    file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+
+    ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" "$file" || exit 0
+
+    ${pkgs.wl-clipboard}/bin/wl-copy < "$file"
+    ${pkgs.libnotify}/bin/notify-send "Screenshot saved" "$file"
+  '';
 in
 {
   home.packages = with pkgs; [
@@ -114,7 +125,10 @@ in
     # misc
     fzf
     theme-switch
+    screenshot
     arp-scan
+    grim
+    slurp
 
     # torrent
     transmission_4-gtk

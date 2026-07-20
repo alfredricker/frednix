@@ -134,8 +134,12 @@
   # networking.firewall.enable = false;
   networking.firewall.interfaces."virbr0".allowedUDPPorts = [ 4010 ];
 
-  # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
+  # Set your time zone (fallback; automatic-timezoned overrides this based on location).
+  time.timeZone = lib.mkDefault "America/Los_Angeles";
+
+  # Automatically keep the timezone in sync with location via geoclue2.
+  services.geoclue2.enable = true;
+  services.automatic-timezoned.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
