@@ -25,6 +25,11 @@
       set -g fish_color_error red
       set -g fish_color_param normal
 
+      # cuda env vars
+      set -gx CUDA_HOME /nix/store/wsfjr42lfyqfpbx8icw8m101zyj2mjyx-cuda-merged-13.2
+      set -gx LD_LIBRARY_PATH /run/opengl-driver/lib $LD_LIBRARY_PATH
+      set -gx TRITON_LIBCUDA_PATH /run/opengl-driver/lib
+
       # Suppress greeting
       set -g fish_greeting
 
