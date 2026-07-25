@@ -52,6 +52,8 @@
   # nixpkgs.config.cudaSupport = true;
   nixpkgs.config.permittedInsecurePackages = [
     "openssl-1.1.1w"
+    # bitwarden-desktop currently bundles an EOL Electron release
+    "electron-39.8.10"
   ];
 
   # --- NIX INDEX (command-not-found replacement) ---
