@@ -34,17 +34,14 @@ in
       dbaeumer.vscode-eslint
       esbenp.prettier-vscode
 
-      # GitHub Copilot
-      github.copilot
-      github.copilot-chat
-      # playwright testing
-      playwrightMcpRelay
-
-      # Nix
+      # nix
       jnoortheen.nix-ide
 
       # Theme
       shadesOfPurple
+
+      # rainbow csv
+      mechatroner.rainbow-csv
     ];
 
     profiles.default.userSettings = {

@@ -36,6 +36,16 @@
             {
               nixpkgs.overlays = [
                 inputs.claude-code.overlays.default
+                # Work around poetry 2.4.1 test failures on python 3.14 in
+                # nixos-unstable (test_executor.py assertion mismatches).
+                (final: prev: {
+                  poetry = prev.poetry.overridePythonAttrs (old: {
+                    disabledTests = (old.disabledTests or [ ]) ++ [
+                      "test_execute_executes_a_batch_of_operations"
+                      "test_execute_prints_warning_for_yanked_package"
+                    ];
+                  });
+                })
               ];
             }
             ./system/configuration.nix
