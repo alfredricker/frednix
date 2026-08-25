@@ -6,7 +6,9 @@
       # do NOT remove this
       efi.canTouchEfiVariables = true;
       # can change to GRUB
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 20;
     };
     #
     plymouth = {

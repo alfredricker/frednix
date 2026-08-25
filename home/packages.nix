@@ -58,6 +58,8 @@ in
     carla # plugin host; bridges LV2 plugins into Bitwig as VST
     crosspipe # PipeWire patchbay for routing audio/MIDI
     audacity # audio editing and sampling
+    # digital art
+    krita
 
     # media sync for servers
     rsync
@@ -129,6 +131,9 @@ in
     arp-scan
     grim
     slurp
+
+    # fonts
+    freefont_ttf
 
     # torrent
     transmission_4-gtk
