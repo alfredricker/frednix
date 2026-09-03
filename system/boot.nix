@@ -1,6 +1,11 @@
-{ config, pkgs, lib, ... }:
-{ 
- # Use the systemd-boot EFI boot loader.
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  # Use the systemd-boot EFI boot loader.
   boot = {
     loader = {
       # do NOT remove this
@@ -9,6 +14,7 @@
       systemd-boot = {
         enable = true;
         configurationLimit = 20;
+      };
     };
     #
     plymouth = {
@@ -34,10 +40,13 @@
     };
     kernelModules = [ "kvm-amd" ];
     kernelParams = [
-      "quiet" "udev.log_level=3" "systemd.show_status=auto"
+      "quiet"
+      "udev.log_level=3"
+      "systemd.show_status=auto"
       "boot.shell_on_fail"
       # Keep IOMMU on so the looking-glass specialisation can pass the RTX through.
-      "amd_iommu=on" "iommu=pt"
+      "amd_iommu=on"
+      "iommu=pt"
     ];
   };
 
