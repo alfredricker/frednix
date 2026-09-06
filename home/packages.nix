@@ -60,6 +60,8 @@ in
     audacity # audio editing and sampling
     # digital art
     krita
+    # ai
+    codex
 
     # media sync for servers
     rsync
