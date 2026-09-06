@@ -15,6 +15,7 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     claude-code.url = "github:sadjow/claude-code-nix";
+    codex-cli.url = "github:sadjow/codex-cli-nix";
   };
 
   outputs =
@@ -36,6 +37,7 @@
             {
               nixpkgs.overlays = [
                 inputs.claude-code.overlays.default
+                inputs.codex-cli.overlays.default
                 # Work around poetry 2.4.1 test failures on python 3.14 in
                 # nixos-unstable (test_executor.py assertion mismatches).
                 (final: prev: {

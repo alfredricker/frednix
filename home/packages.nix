@@ -61,7 +61,7 @@ in
     # digital art
     krita
     # ai
-    codex
+    codex # openai codex cli, via codex-cli-nix flake (updates faster than nixpkgs)
 
     # media sync for servers
     rsync
