@@ -43,9 +43,6 @@ in
     slack
     bitwarden-desktop # password manager
     signal-desktop # messenger
-    # claude
-    claude-code
-    poppler-utils # allows claude to read pdf files
     # tor
     tor-browser
     # music
@@ -62,6 +59,9 @@ in
     krita
     # ai
     codex # openai codex cli, via codex-cli-nix flake (updates faster than nixpkgs)
+    claude-code # using a flake
+    poppler-utils # allows reading of pdf files
+    opencode # agent cli that can connect to openrouter
 
     # media sync for servers
     rsync
@@ -110,6 +110,7 @@ in
     # python
     poetry
     python3
+    uv
 
     # dev tools
     nodejs
