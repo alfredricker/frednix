@@ -8,7 +8,6 @@ in
 {
   imports = [
     ./packages.nix
-    ./agent/hermes.nix
     ./programs/niri.nix
     ./programs/waybar.nix
     ./programs/ghostty.nix
@@ -49,7 +48,6 @@ in
     source = ../scripts/compress;
     executable = true;
   };
-
 
   stylix = {
     enable = true;
