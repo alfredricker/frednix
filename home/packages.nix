@@ -106,7 +106,6 @@ in
     gotop
     pulsemixer # pipewire/pulseaudio tui mixer
     scream # receive audio from Windows VM
-    pdfinfo
 
     # python
     poetry
