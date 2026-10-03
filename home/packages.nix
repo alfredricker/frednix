@@ -134,6 +134,7 @@ in
     arp-scan
     grim
     slurp
+    ddcutil # allows changing monitor brightness
 
     # fonts
     freefont_ttf

@@ -67,6 +67,7 @@
   # --- BLUETOOTH ---
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.i2c.enable = true;
   services.blueman.enable = true;
 
   # --- SERVICES ---
@@ -160,6 +161,7 @@
       "docker"
       "audio"
       "jackaudio"
+      "i2c"
     ]; # Enable ‘sudo’ for the user.
     shell = pkgs.fish;
     packages = with pkgs; [

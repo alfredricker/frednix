@@ -155,6 +155,10 @@ in
       # Move focused window to adjacent workspace
       "Mod+Shift+Down".action = move-window-to-workspace-down;
       "Mod+Shift+Up".action = move-window-to-workspace-up;
+
+      # Brightness
+      "Mod+F2".action = spawn "ddcutil" "setvcp" "10" "+" "10";
+      "Mod+F3".action = spawn "ddcutil" "setvcp" "10" "-" "10";
     };
   };
 }
