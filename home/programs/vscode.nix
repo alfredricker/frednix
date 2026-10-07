@@ -20,7 +20,7 @@ in
 
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode; # Microsoft binary required for GitHub Copilot
+    package = pkgs.vscode;
 
     profiles.default.extensions = with pkgs.vscode-extensions; [
       # Python
@@ -34,6 +34,15 @@ in
       dbaeumer.vscode-eslint
       esbenp.prettier-vscode
 
+      # Next.js / Tailwind
+      bradlc.vscode-tailwindcss
+
+      # Go
+      golang.go
+
+      # Svelte
+      svelte.svelte-vscode
+
       # nix
       jnoortheen.nix-ide
 
@@ -45,6 +54,7 @@ in
     ];
 
     profiles.default.userSettings = {
+      "chat.disableAIFeatures" = true; # disable built-in Copilot/chat
       "workbench.colorTheme" = "Shades of Purple (Super Dark)";
       "editor.fontFamily" = "'mononoki', monospace";
       "editor.fontSize" = 14;
@@ -52,6 +62,8 @@ in
       "editor.defaultFormatter" = "esbenp.prettier-vscode";
       "[python]"."editor.defaultFormatter" = "ms-python.python";
       "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
+      "[go]"."editor.defaultFormatter" = "golang.go";
+      "[svelte]"."editor.defaultFormatter" = "svelte.svelte-vscode";
       "rust-analyzer.check.command" = "clippy";
     };
   };
