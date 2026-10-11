@@ -123,6 +123,7 @@ in
     go
     wails
     trash-cli
+    pnpm
 
     # work (bb) tools
     awscli2
