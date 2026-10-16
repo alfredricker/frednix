@@ -43,6 +43,7 @@ in
     slack
     bitwarden-desktop # password manager
     signal-desktop # messenger
+    anki # flash cards
     # tor
     tor-browser
     # music
