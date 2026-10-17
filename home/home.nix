@@ -52,6 +52,8 @@ in
   stylix = {
     enable = true;
     image = theme.wallpaper;
+    # Overlays set nixpkgs.overlays, which home-manager forbids with useGlobalPkgs.
+    overlays.enable = false;
     base16Scheme = theme.base16Scheme;
     fonts = {
       monospace = {
