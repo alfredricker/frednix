@@ -43,8 +43,7 @@ in
     slack
     bitwarden-desktop # password manager
     signal-desktop # messenger
-    anki # flash cards
-    (pkgs.callPackage ../pkgs/synapse.nix { }) # anki-compatible flash cards (AppImage)
+    mochi # flashcards
     # tor
     tor-browser
     # music
