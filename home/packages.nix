@@ -121,6 +121,7 @@ in
     gnumake
     tree-sitter
     rustup
+    cargo-audit
     go
     wails
     trash-cli
