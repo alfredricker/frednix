@@ -31,8 +31,6 @@
     consoleLogLevel = 3;
     # rd shiz
     initrd = {
-      verbose = false;
-      systemd.enable = true;
       # iGPU is available in both boot modes. vfio modules + the RTX→vfio binding
       # live in the `looking-glass` specialisation (see system/looking-glass.nix),
       # so by default nvidia claims the RTX and drives the display.

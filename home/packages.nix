@@ -126,6 +126,7 @@ in
     wails
     trash-cli
     pnpm
+    dig # web request cli
 
     # work (bb) tools
     awscli2
