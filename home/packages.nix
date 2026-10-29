@@ -127,6 +127,7 @@ in
     trash-cli
     pnpm
     dig # web request cli
+    openssl
 
     # work (bb) tools
     awscli2
