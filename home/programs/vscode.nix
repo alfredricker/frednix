@@ -65,6 +65,11 @@ in
       "[go]"."editor.defaultFormatter" = "golang.go";
       "[svelte]"."editor.defaultFormatter" = "svelte.svelte-vscode";
       "rust-analyzer.check.command" = "clippy";
+      # Lighter rust-analyzer: don't index every crate up front (it indexes
+      # on demand instead, so the first lookups are slower), and cap its
+      # worker threads (24 cores here).
+      "rust-analyzer.cachePriming.enable" = false;
+      "rust-analyzer.numThreads" = 8;
     };
   };
 }
