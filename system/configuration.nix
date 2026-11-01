@@ -59,7 +59,6 @@
   # --- NIX INDEX (command-not-found replacement) ---
   programs.nix-index-database.comma.enable = true;
   programs.command-not-found.enable = false;
-  programs.adb.enable = true;
 
   # --- VIRTUALISATION ---
   virtualisation.docker.enable = true;
