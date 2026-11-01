@@ -101,6 +101,7 @@ in
     zip
     unzip
     unrar
+    android-tools
 
     # tui tools
     fastfetch
