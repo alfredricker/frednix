@@ -470,7 +470,28 @@
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_4",
         "nixvim": "nixvim",
+        "sandhouse": "sandhouse",
         "stylix": "stylix"
+      }
+    },
+    "sandhouse": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793566118,
+        "narHash": "sha256-1plZRnSE3cStu7gefZarca/u5ht+/HlloPCXGTWZ6sQ=",
+        "owner": "Rotomodo",
+        "repo": "sandhouse-nix-flake",
+        "rev": "5d28d13ca589bd889d2c9a052124eb2fca59bba2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Rotomodo",
+        "repo": "sandhouse-nix-flake",
+        "type": "github"
       }
     },
     "stylix": {

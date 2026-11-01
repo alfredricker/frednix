@@ -16,6 +16,8 @@
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     claude-code.url = "github:sadjow/claude-code-nix";
     codex-cli.url = "github:sadjow/codex-cli-nix";
+    sandhouse.url = "github:Rotomodo/sandhouse-nix-flake";
+    sandhouse.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -52,6 +54,8 @@
             }
             ./system/configuration.nix
             nix-index-database.nixosModules.nix-index
+            inputs.sandhouse.nixosModules.default
+            { programs.sandhouse.enable = true; }
 
             # HOME MANAGER
             home-manager.nixosModules.home-manager
