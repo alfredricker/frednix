@@ -62,7 +62,13 @@ in
     codex # openai codex cli, via codex-cli-nix flake (updates faster than nixpkgs)
     claude-code # using a flake
     poppler-utils # allows reading of pdf files
-    opencode # agent cli that can connect to openrouter
+    # agent cli that can connect to openrouter
+    # TODO: remove the override once nixpkgs fixes the node_modules hash for opencode 2.2.5
+    (opencode.overrideAttrs (old: {
+      node_modules = old.node_modules.overrideAttrs {
+        outputHash = "sha256-prx9dX7kUvs/E3zopkaPk5LXh3xJAy5sZeum/W8L7cA=";
+      };
+    }))
 
     # media sync for servers
     rsync
