@@ -37,7 +37,7 @@ in
   home.packages = with pkgs; [
     # APPS
     obs-studio
-    discord-canary
+    discord
     monero-gui # cryptocurrency
     obsidian # markdown notes
     slack
@@ -47,11 +47,10 @@ in
     # tor
     tor-browser
     # music
-    jellyfin # media server
-    mediaelch # metadata editor
+    picard # metadata gui
+    beets # metadata cli
     feishin # music player
     nicotine-plus # p2p files
-    puddletag # edit music metadata
     # music production - utilities
     carla # plugin host; bridges LV2 plugins into Bitwig as VST
     crosspipe # PipeWire patchbay for routing audio/MIDI
@@ -63,13 +62,7 @@ in
     claude-code # using a flake
     poppler-utils # allows reading of pdf files
     # agent cli that can connect to openrouter
-    # TODO: remove the override once nixpkgs fixes the node_modules hash for opencode 2.2.5
-    (opencode.overrideAttrs (old: {
-      node_modules = old.node_modules.overrideAttrs {
-        outputHash = "sha256-prx9dX7kUvs/E3zopkaPk5LXh3xJAy5sZeum/W8L7cA=";
-      };
-    }))
-
+    opencode
     # media sync for servers
     rsync
     cloudflared # cloudflare daemon for managing domains

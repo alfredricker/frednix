@@ -107,9 +107,6 @@ in
     spawn-at-startup = [
       { command = [ "awww-daemon" ]; }
       { command = [ "waybar" ]; }
-      # note: spawning the jellyfin server on startup will consistently consume ram in the background
-      # comment this out if you want to manually start the music server to use feishin
-      { command = [ "jellyfin" ]; }
     ];
 
     binds = with config.lib.niri.actions; {

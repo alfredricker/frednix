@@ -20,6 +20,7 @@
     ./virt/virt.nix
     ./gpu-switch.nix
     ./looking-glass.nix
+    ./navidrome.nix
     inputs.musnix.nixosModules.musnix
   ];
 
