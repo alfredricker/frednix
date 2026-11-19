@@ -67,6 +67,7 @@ in
     rsync
     cloudflared # cloudflare daemon for managing domains
     flirc
+    kytyps5 # ps5 emulator, built from its flake input (see pkgs/kytyps5)
 
     # file manager
     nautilus
