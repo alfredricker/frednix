@@ -47,6 +47,12 @@
     kernel.realtime = true;
     rtirq.enable = true;
   };
+  # ntsync: kernel NT sync primitives; Wine 11 uses /dev/ntsync automatically
+  # (lower CPU overhead for FL Studio / Windows plugins under Wine).
+  boot.kernelModules = [ "ntsync" ];
+  services.udev.extraRules = ''
+    KERNEL=="ntsync", MODE="0660", TAG+="uaccess"
+  '';
 
   # --- NIXPKGS ---
   nixpkgs.config.allowUnfree = true;

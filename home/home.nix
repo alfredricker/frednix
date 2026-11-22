@@ -18,6 +18,7 @@ in
     ./programs/rofi.nix
     ./programs/nvim.nix
     ./programs/vscode.nix
+    ./programs/fl-studio.nix
   ];
 
   home.username = "fred";
