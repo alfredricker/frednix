@@ -102,6 +102,7 @@ in
     unzip
     unrar
     android-tools
+    gh # github cli
 
     # tui tools
     fastfetch
