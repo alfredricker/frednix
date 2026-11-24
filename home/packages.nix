@@ -43,7 +43,6 @@ in
     slack
     bitwarden-desktop # password manager
     signal-desktop # messenger
-    mochi # flashcards
     # tor
     tor-browser
     # music
@@ -52,7 +51,6 @@ in
     feishin # music player
     nicotine-plus # p2p files
     # music production - utilities
-    carla # plugin host; bridges LV2 plugins into Bitwig as VST
     crosspipe # PipeWire patchbay for routing audio/MIDI
     audacity # audio editing and sampling
     # digital art
@@ -67,7 +65,6 @@ in
     rsync
     cloudflared # cloudflare daemon for managing domains
     flirc
-    kytyps5 # ps5 emulator, built from its flake input (see pkgs/kytyps5)
 
     # file manager
     nautilus
@@ -131,8 +128,9 @@ in
     dig # web request cli
     openssl
 
-    # work (bb) tools
+    # work tools
     awscli2
+    mujoco
 
     # misc
     fzf
