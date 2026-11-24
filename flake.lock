@@ -237,29 +237,6 @@
         "type": "github"
       }
     },
-    "kytyps5": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1795125212,
-        "narHash": "sha256-E33692oLAB0y7DVlSYtzOj0UOuFgHcyVMLUNIhlMIbk=",
-        "ref": "refs/heads/main",
-        "rev": "7f145b0e21ec9b72254e57f82a12cd2ea1ee24a7",
-        "shallow": true,
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/KytyPS5/KytyPS5"
-      },
-      "original": {
-        "shallow": true,
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/KytyPS5/KytyPS5"
-      }
-    },
     "musnix": {
       "inputs": {
         "nixpkgs": "nixpkgs_3"
@@ -488,7 +465,6 @@
         "claude-code": "claude-code",
         "codex-cli": "codex-cli",
         "home-manager": "home-manager",
-        "kytyps5": "kytyps5",
         "musnix": "musnix",
         "niri-flake": "niri-flake",
         "nix-index-database": "nix-index-database",

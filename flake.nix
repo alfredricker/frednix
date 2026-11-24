@@ -18,9 +18,6 @@
     codex-cli.url = "github:sadjow/codex-cli-nix";
     sandhouse.url = "github:Rotomodo/sandhouse-nix-flake";
     sandhouse.inputs.nixpkgs.follows = "nixpkgs";
-    # Fetched with submodules: this is also the source for pkgs/kytyps5.
-    kytyps5.url = "git+https://github.com/KytyPS5/KytyPS5?submodules=1&shallow=1";
-    kytyps5.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -34,10 +31,6 @@
       ...
     }@inputs:
     {
-      # Upstream's dev shell, for hacking on the emulator itself:
-      #   nix develop /etc/nixos#kytyps5
-      devShells.x86_64-linux.kytyps5 = inputs.kytyps5.devShells.x86_64-linux.default;
-
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -47,10 +40,6 @@
               nixpkgs.overlays = [
                 inputs.claude-code.overlays.default
                 inputs.codex-cli.overlays.default
-                # KytyPS5 has no upstream package; build it from the flake input.
-                (final: prev: {
-                  kytyps5 = final.callPackage ./pkgs/kytyps5/package.nix { src = inputs.kytyps5; };
-                })
                 # Work around poetry 2.4.1 test failures on python 3.14 in
                 # nixos-unstable (test_executor.py assertion mismatches).
                 (final: prev: {
