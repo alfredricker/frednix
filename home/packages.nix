@@ -58,6 +58,8 @@ in
     # ai
     codex # openai codex cli, via codex-cli-nix flake (updates faster than nixpkgs)
     claude-code # using a flake
+    google-antigravity # agent IDE, via antigravity-nix flake
+    google-antigravity-cli
     poppler-utils # allows reading of pdf files
     # agent cli that can connect to openrouter
     opencode
