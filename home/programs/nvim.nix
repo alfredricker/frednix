@@ -1,8 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   programs.nixvim = {
     enable = true;
+    # We make nixvim follow our nixpkgs (see flake.nix); say so explicitly to
+    # silence the "default value has been affected by follows" warning.
+    nixpkgs.source = inputs.nixpkgs;
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;

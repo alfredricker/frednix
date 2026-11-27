@@ -93,9 +93,9 @@ in
   programs.rofi = {
     enable = true;
     package = pkgs.rofi;
-    terminal = "${pkgs.ghostty}/bin/ghostty";
     theme = "${theme}";
-    extraConfig = {
+    settings = {
+      terminal = "${pkgs.ghostty}/bin/ghostty";
       modi = "drun,run";
       show-icons = true;
       drun-display-format = "{name}";

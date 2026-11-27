@@ -101,7 +101,8 @@
       pulse.enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
-      jack.enable = true;
+      # jack.enable is deprecated (global LD_LIBRARY_PATH); JACK clients use
+      # `pw-jack <app>` instead. fl-studio.nix sets up libjack itself.
     };
     # PRINTING
     printing.enable = true;

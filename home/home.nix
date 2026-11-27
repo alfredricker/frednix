@@ -25,6 +25,7 @@ in
   home.homeDirectory = "/home/fred";
   home.stateVersion = "25.11";
   home.pointerCursor = {
+    enable = true;
     name = "Adwaita";
     package = pkgs.adwaita-icon-theme;
     size = 16;

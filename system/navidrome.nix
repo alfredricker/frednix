@@ -12,6 +12,9 @@
     group = "users";
     settings = {
       MusicFolder = "/home/fred/Media/Music/lib";
+      # Group albums by directory (like Jellyfin did) instead of by tags, so
+      # tracks with inconsistent album artist/date tags don't split an album.
+      PID.Album = "folder";
       # Listen on all interfaces; the firewall below only lets Tailscale in.
       Address = "0.0.0.0";
       Port = 4533;
